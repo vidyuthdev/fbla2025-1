@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Arena</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">Community Arena</div>
+        <div class="nav-links">
+            <a href="#events">Events</a>
+            <a href="#tickets">Tickets</a>
+            <a href="#info">Info</a>
+            <a href="#planner">Planner</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <img src="/api/placeholder/1920/1080" alt="Arena">
+        <div class="hero-content">
+            <h1>Welcome to Our Community Arena</h1>
+            <p>Where memories are made and communities unite</p>
+        </div>
+    </section>
+
+    <section id="events" class="section">
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="calendar">
+            <div class="event">
+                <div>
+                    <h3>High School Basketball Championships</h3>
+                    <p>March 15, 2024 - 7:00 PM</p>
+                </div>
+                <a href="#" class="button">Get Tickets</a>
+            </div>
+            <div class="event">
+                <div>
+                    <h3>Local Artist Concert Series</h3>
+                    <p>March 20, 2024 - 8:00 PM</p>
+                </div>
+                <a href="#" class="button">Get Tickets</a>
+            </div>
+            <div class="event">
+                <div>
+                    <h3>Spring Trade Show</h3>
+                    <p>April 5-7, 2024</p>
+                </div>
+                <a href="#" class="button">Get Tickets</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="tickets" class="section">
+        <h2 class="section-title">Box Office</h2>
+        <div class="tickets">
+            <div class="ticket-card">
+                <h3>General Admission</h3>
+                <p>Starting from $25</p>
+                <a href="#" class="button">Purchase</a>
+            </div>
+            <div class="ticket-card">
+                <h3>VIP Experience</h3>
+                <p>Starting from $75</p>
+                <a href="#" class="button">Purchase</a>
+            </div>
+            <div class="ticket-card">
+                <h3>Group Packages</h3>
+                <p>Custom pricing available</p>
+                <a href="#" class="button">Inquire</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="info" class="section">
+        <h2 class="section-title">Venue Information</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Location & Directions</h3>
+                <p>123 Community Way<br>Your City, State 12345</p>
+            </div>
+            <div class="info-card">
+                <h3>Amenities</h3>
+                <p>• Concessions<br>• Free Parking<br>• Wheelchair Accessible</p>
+            </div>
+            <div class="info-card">
+                <h3>Policies</h3>
+                <p>• Clear Bag Policy<br>• No Outside Food<br>• No Smoking</p>
+            </div>
+        </div>
+        <div class="seating-chart">
+            <!-- SVG Seating Chart would go here -->
+        </div>
+    </section>
+
+    <section id="planner" class="section">
+        <h2 class="section-title">Event Planning</h2>
+        <div class="planner">
+            <div class="contact-form">
+                <h3>Rent the Arena</h3>
+                <form>
+                    <input type="text" placeholder="Name">
+                    <input type="email" placeholder="Email">
+                    <input type="text" placeholder="Event Type">
+                    <textarea placeholder="Event Details" rows="5"></textarea>
+                    <button type="submit" class="button">Submit Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero animations
+        gsap.to(".hero h1", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.5
+        });
+
+        gsap.to(".hero p", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.8
+        });
+
+        // Section title animations
+        gsap.utils.toArray(".section-title").forEach(title => {
+            gsap.to(title, {
+                scrollTrigger: {
+                    trigger: title,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1
+            });
+        });
+
+        // Content animations
+        const animateContent = (selector) => {
+            gsap.to(selector, {
+                scrollTrigger: {
+                    trigger: selector,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1
+            });
+        };
+
+        animateContent(".calendar");
+        animateContent(".tickets");
+        animateContent(".info-grid");
+        animateContent(".planner");
+
+        // Parallax effect for hero image
+        gsap.to(".hero img", {
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 200
+        });
+    </script>
+</body>
+</html>
