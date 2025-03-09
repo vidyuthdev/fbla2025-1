@@ -178,6 +178,8 @@
             border-radius: 1rem;
             width: 100%;
             max-width: 600px;
+            text-align: center;
+            transform: translateX(300px)
         }
 
         input, textarea {

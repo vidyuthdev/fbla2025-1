@@ -92,7 +92,67 @@
             </div>
         </div>
         <div class="seating-chart">
-            <!-- SVG Seating Chart would go here -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+                <!-- Background -->
+                <rect width="800" height="600" fill="#111" rx="10"/>
+                
+                <!-- Stage/Court Area -->
+                <rect x="300" y="50" width="200" height="100" fill="#222" stroke="#333" stroke-width="2"/>
+                <text x="400" y="100" fill="#fff" text-anchor="middle" font-size="14">Stage/Court</text>
+                
+                <!-- VIP Sections -->
+                <g class="vip-sections">
+                    <!-- Left VIP -->
+                    <path d="M200 200 Q 300 200 300 150 L300 250 Q200 250 200 200Z" fill="#444" stroke="#gold" stroke-width="1"/>
+                    <text x="260" y="220" fill="#fff" text-anchor="middle" font-size="12">VIP A</text>
+                    
+                    <!-- Right VIP -->
+                    <path d="M600 200 Q 500 200 500 150 L500 250 Q600 250 600 200Z" fill="#444" stroke="#gold" stroke-width="1"/>
+                    <text x="540" y="220" fill="#fff" text-anchor="middle" font-size="12">VIP B</text>
+                </g>
+                
+                <!-- General Admission Sections -->
+                <g class="general-sections">
+                    <!-- Left Wing -->
+                    <path d="M50 150 Q200 150 200 300 L200 400 Q50 400 50 150Z" fill="#222" stroke="#333" stroke-width="1"/>
+                    <text x="125" y="275" fill="#fff" text-anchor="middle" font-size="12">Section A</text>
+                    
+                    <!-- Right Wing -->
+                    <path d="M750 150 Q600 150 600 300 L600 400 Q750 400 750 150Z" fill="#222" stroke="#333" stroke-width="1"/>
+                    <text x="675" y="275" fill="#fff" text-anchor="middle" font-size="12">Section B</text>
+                    
+                    <!-- Center Section -->
+                    <path d="M200 300 Q400 250 600 300 L600 500 Q400 450 200 500Z" fill="#222" stroke="#333" stroke-width="1"/>
+                    <text x="400" y="400" fill="#fff" text-anchor="middle" font-size="12">Section C</text>
+                </g>
+                
+                <!-- Legend -->
+                <g transform="translate(175, 520)">
+                    <!-- VIP Legend -->
+                    <rect x="0" y="0" width="20" height="20" fill="#444" stroke="#gold" stroke-width="1"/>
+                    <text x="30" y="15" fill="#fff" font-size="12">VIP Seating</text>
+                    
+                    <!-- General Admission Legend -->
+                    <rect x="150" y="0" width="20" height="20" fill="#222" stroke="#333" stroke-width="1"/>
+                    <text x="180" y="15" fill="#fff" font-size="12">General Admission</text>
+                    
+                    <!-- Stage/Court Legend -->
+                    <rect x="350" y="0" width="20" height="20" fill="#222" stroke="#333" stroke-width="2"/>
+                    <text x="380" y="15" fill="#fff" font-size="12">Stage/Court Area</text>
+                </g>
+                
+                <!-- Entrance Markers -->
+                <g class="entrances">
+                    <circle cx="400" cy="580" r="10" fill="#fff"/>
+                    <text x="400" y="560" fill="#fff" text-anchor="middle" font-size="12">Main Entrance</text>
+                    
+                    <circle cx="100" cy="580" r="8" fill="#fff"/>
+                    <text x="100" y="560" fill="#fff" text-anchor="middle" font-size="12">Entry A</text>
+                    
+                    <circle cx="700" cy="580" r="8" fill="#fff"/>
+                    <text x="700" y="560" fill="#fff" text-anchor="middle" font-size="12">Entry B</text>
+                </g>
+            </svg>
         </div>
     </section>
 
