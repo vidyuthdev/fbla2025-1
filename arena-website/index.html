@@ -6,6 +6,10 @@
     <title>Community Arena</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -91,69 +95,9 @@
                 <p>• Clear Bag Policy<br>• No Outside Food<br>• No Smoking</p>
             </div>
         </div>
-        <div class="seating-chart">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
-                <!-- Background -->
-                <rect width="800" height="600" fill="#111" rx="10"/>
-                
-                <!-- Stage/Court Area -->
-                <rect x="300" y="50" width="200" height="100" fill="#222" stroke="#333" stroke-width="2"/>
-                <text x="400" y="100" fill="#fff" text-anchor="middle" font-size="14">Stage/Court</text>
-                
-                <!-- VIP Sections -->
-                <g class="vip-sections">
-                    <!-- Left VIP -->
-                    <path d="M200 200 Q 300 200 300 150 L300 250 Q200 250 200 200Z" fill="#444" stroke="#gold" stroke-width="1"/>
-                    <text x="260" y="220" fill="#fff" text-anchor="middle" font-size="12">VIP A</text>
-                    
-                    <!-- Right VIP -->
-                    <path d="M600 200 Q 500 200 500 150 L500 250 Q600 250 600 200Z" fill="#444" stroke="#gold" stroke-width="1"/>
-                    <text x="540" y="220" fill="#fff" text-anchor="middle" font-size="12">VIP B</text>
-                </g>
-                
-                <!-- General Admission Sections -->
-                <g class="general-sections">
-                    <!-- Left Wing -->
-                    <path d="M50 150 Q200 150 200 300 L200 400 Q50 400 50 150Z" fill="#222" stroke="#333" stroke-width="1"/>
-                    <text x="125" y="275" fill="#fff" text-anchor="middle" font-size="12">Section A</text>
-                    
-                    <!-- Right Wing -->
-                    <path d="M750 150 Q600 150 600 300 L600 400 Q750 400 750 150Z" fill="#222" stroke="#333" stroke-width="1"/>
-                    <text x="675" y="275" fill="#fff" text-anchor="middle" font-size="12">Section B</text>
-                    
-                    <!-- Center Section -->
-                    <path d="M200 300 Q400 250 600 300 L600 500 Q400 450 200 500Z" fill="#222" stroke="#333" stroke-width="1"/>
-                    <text x="400" y="400" fill="#fff" text-anchor="middle" font-size="12">Section C</text>
-                </g>
-                
-                <!-- Legend -->
-                <g transform="translate(175, 520)">
-                    <!-- VIP Legend -->
-                    <rect x="0" y="0" width="20" height="20" fill="#444" stroke="#gold" stroke-width="1"/>
-                    <text x="30" y="15" fill="#fff" font-size="12">VIP Seating</text>
-                    
-                    <!-- General Admission Legend -->
-                    <rect x="150" y="0" width="20" height="20" fill="#222" stroke="#333" stroke-width="1"/>
-                    <text x="180" y="15" fill="#fff" font-size="12">General Admission</text>
-                    
-                    <!-- Stage/Court Legend -->
-                    <rect x="350" y="0" width="20" height="20" fill="#222" stroke="#333" stroke-width="2"/>
-                    <text x="380" y="15" fill="#fff" font-size="12">Stage/Court Area</text>
-                </g>
-                
-                <!-- Entrance Markers -->
-                <g class="entrances">
-                    <circle cx="400" cy="580" r="10" fill="#fff"/>
-                    <text x="400" y="560" fill="#fff" text-anchor="middle" font-size="12">Main Entrance</text>
-                    
-                    <circle cx="100" cy="580" r="8" fill="#fff"/>
-                    <text x="100" y="560" fill="#fff" text-anchor="middle" font-size="12">Entry A</text>
-                    
-                    <circle cx="700" cy="580" r="8" fill="#fff"/>
-                    <text x="700" y="560" fill="#fff" text-anchor="middle" font-size="12">Entry B</text>
-                </g>
-            </svg>
-        </div>
+
+        <div id="seating-chart-root"></div>
+
     </section>
 
     <section id="planner" class="section">
@@ -221,6 +165,7 @@
         animateContent(".calendar");
         animateContent(".tickets");
         animateContent(".info-grid");
+        animateContent("seating-chart")
         animateContent(".planner");
 
         // Parallax effect for hero image
@@ -234,5 +179,223 @@
             y: 200
         });
     </script>
+    <script type="text/babel">
+        const InteractiveSeatingChart = () => {
+          const [selectedSections, setSelectedSections] = React.useState({
+            vip: false,
+            general: false
+          });
+        
+          const handleSectionToggle = (section) => {
+            setSelectedSections(prev => ({
+              ...prev,
+              [section]: !prev[section]
+            }));
+          };
+        
+          const getVipColor = () => selectedSections.vip ? '#2749B7' : '#444';
+          const getGeneralColor = () => selectedSections.general ? '#2749B7' : '#444';
+        
+          return (
+            <div className="w-full max-w-4xl mx-auto space-y-4">
+              <div className="flex gap-4 items-center justify-center bg-gray-900 p-4 rounded-lg">
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedSections.vip}
+                    onChange={() => handleSectionToggle('vip')}
+                    className="w-4 h-4"
+                  />
+                  <span className="text-white">VIP Sections</span>
+                </label>
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedSections.general}
+                    onChange={() => handleSectionToggle('general')}
+                    className="w-4 h-4"
+                  />
+                  <span className="text-white">General Admission</span>
+                </label>
+              </div>
+        
+              <svg 
+                viewBox="0 0 800 600" 
+                className="w-full h-auto bg-black-900 rounded-lg"
+              >
+                {/* Stage/Court Area */}
+                <rect 
+                  x="300" 
+                  y="50" 
+                  width="200" 
+                  height="100" 
+                  fill="#333" 
+                  stroke="#444" 
+                  strokeWidth="2"
+                />
+                <text 
+                  x="400" 
+                  y="110" 
+                  fill="white" 
+                  textAnchor="middle" 
+                  className="text-lg font-semibold"
+                >
+                  Stage/Court
+                </text>
+        
+                {/* VIP Sections */}
+                <g>
+                  {/* Left VIP */}
+                  <path 
+                    d="M200 200 Q 300 200 300 150 L300 250 Q200 250 200 200Z" 
+                    fill={getVipColor()} 
+                    stroke={selectedSections.vip ? '#3B82F6' : '#333'} 
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  <text 
+                    x="250" 
+                    y="210" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-sm font-medium"
+                  >
+                    VIP A
+                  </text>
+        
+                  {/* Right VIP */}
+                  <path 
+                    d="M600 200 Q 500 200 500 150 L500 250 Q600 250 600 200Z" 
+                    fill={getVipColor()} 
+                    stroke={selectedSections.vip ? '#3B82F6' : '#333'} 
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  <text 
+                    x="550" 
+                    y="210" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-sm font-medium"
+                  >
+                    VIP B
+                  </text>
+                </g>
+        
+                {/* General Admission Sections */}
+                <g>
+                  {/* Left Wing */}
+                  <path 
+                    d="M50 150 Q200 150 200 300 L200 400 Q50 400 50 150Z" 
+                    fill={getGeneralColor()} 
+                    stroke={selectedSections.general ? '#3B82F6' : '#333'} 
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  <text 
+                    x="125" 
+                    y="275" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-sm font-medium"
+                  >
+                    Section A
+                  </text>
+        
+                  {/* Right Wing */}
+                  <path 
+                    d="M750 150 Q600 150 600 300 L600 400 Q750 400 750 150Z" 
+                    fill={getGeneralColor()} 
+                    stroke={selectedSections.general ? '#3B82F6' : '#333'} 
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  <text 
+                    x="675" 
+                    y="275" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-sm font-medium"
+                  >
+                    Section B
+                  </text>
+        
+                  {/* Center Section */}
+                  <path 
+                    d="M200 300 Q400 250 600 300 L600 500 Q400 450 200 500Z" 
+                    fill={getGeneralColor()} 
+                    stroke={selectedSections.general ? '#3B82F6' : '#333'} 
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  <text 
+                    x="400" 
+                    y="400" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-sm font-medium"
+                  >
+                    Section C
+                  </text>
+                </g>
+        
+                {/* Entrances */}
+                <g>
+                  <circle cx="400" cy="580" r="8" fill="white"/>
+                  <text 
+                    x="400" 
+                    y="560" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-xs font-medium"
+                  >
+                    Main Entrance
+                  </text>
+        
+                  <circle cx="100" cy="580" r="6" fill="white"/>
+                  <text 
+                    x="100" 
+                    y="560" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-xs font-medium"
+                  >
+                    Entry A
+                  </text>
+        
+                  <circle cx="700" cy="580" r="6" fill="white"/>
+                  <text 
+                    x="700" 
+                    y="560" 
+                    fill="white" 
+                    textAnchor="middle" 
+                    className="text-xs font-medium"
+                  >
+                    Entry B
+                  </text>
+                </g>
+              </svg>
+        
+              <div className="flex justify-center gap-8 bg-gray-900 p-4 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#FFD700]"/>
+                  <span className="text-white text-sm">VIP Sections</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-[#3B82F6]"/>
+                  <span className="text-white text-sm">General Admission</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-gray-700"/>
+                  <span className="text-white text-sm">Stage/Court</span>
+                </div>
+              </div>
+            </div>
+          );
+        };
+        
+        const root = ReactDOM.createRoot(document.getElementById('seating-chart-root'));
+        root.render(<InteractiveSeatingChart />);
+        </script>>
 </body>
 </html>
