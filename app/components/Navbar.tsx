@@ -62,7 +62,7 @@ export default function Navbar() {
                 href="/homepage#events" 
                 className={isLinkActive('/homepage#events') ? styles.active : ''}
               >
-                Events
+                Bookings
               </Link>
             </li>
             <li>
