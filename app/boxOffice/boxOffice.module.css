@@ -1,7 +1,7 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 8rem 2rem 4rem;
+  padding: 6rem 2rem 4rem;
   color: #111;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   animation: fadeIn 0.8s ease-out;
@@ -72,6 +72,7 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  display: block;
 }
 
 .eventDetails {
@@ -79,16 +80,26 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  height: 100%;
+  position: relative;
+  min-height: 350px;
+}
+
+.eventContent {
+  margin-bottom: 5rem;
 }
 
 .eventTitle {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: #111;
   letter-spacing: -0.01em;
   line-height: 1.3;
+  height: 3.9rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .eventDate, .eventPrice {
@@ -97,25 +108,37 @@
   margin-bottom: 1rem;
   color: #555;
   font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 .eventIcon {
   margin-right: 0.75rem;
   color: #0070f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+}
+
+.statusContainer {
+  margin-top: 1.5rem;
 }
 
 .availabilityTag {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 980px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
-  margin: 1.5rem auto;
-  width: fit-content;
-  min-width: 120px;
+  width: 100%;
   text-align: center;
+}
+
+.statusIcon {
+  margin-right: 0.5rem;
+  font-size: 1rem;
 }
 
 .available {
@@ -133,6 +156,31 @@
   color: #ff3b30;
 }
 
+.highDemand {
+  background-color: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
+  animation: pulse 2s infinite;
+  font-weight: 600;
+}
+
+.lowSeats {
+  background-color: rgba(255, 204, 0, 0.15);
+  color: #ffcc00;
+  font-weight: 600;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 69, 58, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(255, 69, 58, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 69, 58, 0);
+  }
+}
+
 .purchaseButton {
   background: #0070f3;
   color: white;
@@ -143,11 +191,14 @@
   font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 100%;
-  margin-top: auto;
+  width: calc(100% - 4rem);
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
 }
 
 .purchaseButton:hover {
@@ -205,5 +256,15 @@
   .ticketList {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+  
+  .eventDetails {
+    min-height: 330px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .ticketList {
+    grid-template-columns: repeat(2, 1fr);
   }
 } 

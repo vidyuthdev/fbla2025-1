@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styles from './boxOffice.module.css';
-import { FaCalendarAlt, FaTicketAlt, FaArrowLeft } from 'react-icons/fa';
+import { FaCalendarAlt, FaTicketAlt, FaArrowLeft, FaFire, FaExclamationCircle } from 'react-icons/fa';
 
 interface Event {
   id: number;
   title: string;
   date: string;
   price: string;
-  availability: 'Available' | 'Limited Seats' | 'Sold Out';
+  availability: 'Available' | 'Limited Seats' | 'Sold Out' | 'High Demand' | 'Low Seats Remaining';
   image: string;
 }
 
@@ -21,7 +21,7 @@ export default function BoxOffice() {
       title: "Championship Basketball Finals",
       date: "June 15, 2023 - 7:00 PM",
       price: "$45.00 - $120.00",
-      availability: "Available",
+      availability: "High Demand",
       image: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
     },
     {
@@ -53,7 +53,7 @@ export default function BoxOffice() {
       title: "Classical Symphony Orchestra",
       date: "September 5, 2023 - 7:30 PM",
       price: "$55.00 - $130.00",
-      availability: "Available",
+      availability: "Low Seats Remaining",
       image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
     },
     {
@@ -74,8 +74,23 @@ export default function BoxOffice() {
         return styles.limited;
       case 'Sold Out':
         return styles.soldOut;
+      case 'High Demand':
+        return styles.highDemand;
+      case 'Low Seats Remaining':
+        return styles.lowSeats;
       default:
         return '';
+    }
+  };
+
+  const getAvailabilityIcon = (availability: string) => {
+    switch (availability) {
+      case 'High Demand':
+        return <FaFire className={styles.statusIcon} />;
+      case 'Low Seats Remaining':
+        return <FaExclamationCircle className={styles.statusIcon} />;
+      default:
+        return null;
     }
   };
 
@@ -103,21 +118,26 @@ export default function BoxOffice() {
               className={styles.eventImage} 
             />
             <div className={styles.eventDetails}>
-              <h2 className={styles.eventTitle}>{event.title}</h2>
-              
-              <div className={styles.eventDate}>
-                <span className={styles.eventIcon}><FaCalendarAlt /></span>
-                {event.date}
+              <div className={styles.eventContent}>
+                <h2 className={styles.eventTitle}>{event.title}</h2>
+                
+                <div className={styles.eventDate}>
+                  <span className={styles.eventIcon}><FaCalendarAlt /></span>
+                  <span>{event.date}</span>
+                </div>
+                
+                <div className={styles.eventPrice}>
+                  <span className={styles.eventIcon}><FaTicketAlt /></span>
+                  <span>{event.price}</span>
+                </div>
+                
+                <div className={styles.statusContainer}>
+                  <span className={`${styles.availabilityTag} ${getAvailabilityClass(event.availability)}`}>
+                    {getAvailabilityIcon(event.availability)}
+                    {event.availability}
+                  </span>
+                </div>
               </div>
-              
-              <div className={styles.eventPrice}>
-                <span className={styles.eventIcon}><FaTicketAlt /></span>
-                {event.price}
-              </div>
-              
-              <span className={`${styles.availabilityTag} ${getAvailabilityClass(event.availability)}`}>
-                {event.availability}
-              </span>
               
               <button 
                 className={styles.purchaseButton}

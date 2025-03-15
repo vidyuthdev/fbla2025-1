@@ -5,6 +5,7 @@
   background: #fff;
   color: #111;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding-top: 60px;
 }
 
 .header {
@@ -89,7 +90,7 @@
   justify-content: center;
   color: white;
   text-align: center;
-  margin-top: 48px;
+  margin-top: 0;
 }
 
 .videoPlaceholder {
@@ -227,6 +228,159 @@
   padding: 0;
 }
 
+.eventsCalendarSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .eventsCalendarSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eventsInfo {
+  text-align: left;
+}
+
+.eventsInfo h2 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: #111;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.eventsInfo p {
+  color: #555;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.miniCalendarContainer {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.miniCalendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: #f8f8f8;
+  border-bottom: 1px solid #eee;
+}
+
+.miniCalendarTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.miniCalendarNav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.miniCalendarNav button {
+  background: none;
+  border: none;
+  color: #0070f3;
+  cursor: pointer;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.miniCalendarNav button:hover {
+  background-color: rgba(0, 112, 243, 0.1);
+}
+
+.miniCalendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 1rem;
+}
+
+.miniCalendarDay {
+  text-align: center;
+  padding: 0.75rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.miniCalendarDate {
+  text-align: center;
+  padding: 0.5rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.miniCalendarDate span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0 auto;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.miniCalendarDate:hover span {
+  background-color: #f0f0f0;
+}
+
+.miniCalendarDate.today span {
+  background-color: #0070f3;
+  color: white;
+}
+
+.miniCalendarDate.hasEvent::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #0070f3;
+}
+
+.miniCalendarDate.otherMonth {
+  opacity: 0.3;
+}
+
+.viewFullCalendarButton {
+  display: block;
+  text-align: center;
+  padding: 1rem;
+  background: #f8f8f8;
+  color: #0070f3;
+  text-decoration: none;
+  font-weight: 500;
+  border-top: 1px solid #eee;
+  transition: background-color 0.3s ease;
+}
+
+.viewFullCalendarButton:hover {
+  background-color: #f0f0f0;
+}
+
 .eventsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -245,6 +399,9 @@
   color: #111;
   border: 1px solid rgba(0, 0, 0, 0.05);
   transform: translateY(0);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .eventCard:hover {
@@ -255,18 +412,52 @@
 .eventImage {
   width: 100%;
   height: 220px;
-  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+  position: relative;
+}
+
+.eventCard:hover .eventImage {
+  transform: scale(1.05);
+}
+
+.eventImage::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
 }
 
 .eventDetails {
   padding: 2rem;
   color: #111;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+  min-height: 250px;
 }
 
 .eventDetails p {
   color: #555;
-  margin: 1rem 0;
+  margin: 0 0 1.5rem;
   line-height: 1.7;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.eventDetails .ctaButton {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-block;
+  text-align: center;
 }
 
 .eventDate {
@@ -278,10 +469,16 @@
 
 .eventTitle {
   font-size: 1.5rem;
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 1rem;
   color: #111;
   font-weight: 600;
   letter-spacing: -0.01em;
+  min-height: 1.8rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .quickAccess {

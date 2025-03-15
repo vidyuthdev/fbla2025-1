@@ -172,10 +172,17 @@ export default function ContactInfoPage() {
       <div className={styles.mapSection}>
         <h2>Find Us</h2>
         <div className={styles.map}>
-          {/* Map placeholder - in a real app, you would integrate Google Maps or similar */}
-          <div className={styles.mapPlaceholder}>
-            <p>Interactive Map Coming Soon</p>
-          </div>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3270.5701063015394!2d-80.75376492392788!3d34.94883757279787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885681d5c7c83095%3A0x97c0ea11a2af4054!2s2825%20Crane%20Rd%2C%20Waxhaw%2C%20NC%2028173!5e0!3m2!1sen!2sus!4v1710539520304!5m2!1sen!2sus" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen={true} 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Mav360 Arena Location"
+            aria-label="Google Maps showing Mav360 Arena location"
+          ></iframe>
         </div>
       </div>
 

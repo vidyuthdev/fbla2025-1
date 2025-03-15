@@ -4,12 +4,14 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import styles from "./homepage.module.css";
+import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
 
 interface EventCardProps {
   date: string;
   title: string;
   description: string;
   buttonText?: string;
+  image?: string;
 }
 
 interface AccessCardProps {
@@ -35,11 +37,26 @@ interface CalendarEvent {
   type: EventType;
 }
 
+// New interface for mini calendar events
+interface MiniCalendarEvent {
+  date: Date;
+  title: string;
+}
+
 export default function HomePage() {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [isHeaderSticky, setIsHeaderSticky] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [hideHeader, setHideHeader] = useState(false);
+  
+  // Mini calendar state
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [calendarEvents, setCalendarEvents] = useState<MiniCalendarEvent[]>([
+    { date: new Date(2025, 2, 15), title: "Regional Basketball Tournament" },
+    { date: new Date(2025, 3, 5), title: "Spring Concert Series" },
+    { date: new Date(2025, 3, 20), title: "Community Trade Show" },
+    { date: new Date(2025, 4, 10), title: "Summer Wrestling Championship" }
+  ]);
   
   useEffect(() => {
     // Simulate video loading
@@ -92,38 +109,110 @@ export default function HomePage() {
     };
   }, [lastScrollY]);
 
+  // Mini calendar functions
+  const handlePrevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+  };
+
+  const renderMiniCalendar = () => {
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    
+    const today = new Date();
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    
+    // First day of the month (0 = Sunday, 1 = Monday, etc.)
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    
+    // Last day of the month (28-31)
+    const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+    
+    // Last day of previous month
+    const lastDayOfPrevMonth = new Date(year, month, 0).getDate();
+    
+    // Calendar days array
+    const days = [];
+    
+    // Add day headers
+    dayNames.forEach(day => {
+      days.push(
+        <div key={`header-${day}`} className={styles.miniCalendarDay}>
+          {day}
+        </div>
+      );
+    });
+    
+    // Add days from previous month to fill the first row
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      const prevMonthDay = lastDayOfPrevMonth - firstDayOfMonth + i + 1;
+      days.push(
+        <div key={`prev-${prevMonthDay}`} className={`${styles.miniCalendarDate} ${styles.otherMonth}`}>
+          <span>{prevMonthDay}</span>
+        </div>
+      );
+    }
+    
+    // Add days of current month
+    for (let day = 1; day <= lastDayOfMonth; day++) {
+      const date = new Date(year, month, day);
+      const isToday = date.getDate() === today.getDate() && 
+                      date.getMonth() === today.getMonth() && 
+                      date.getFullYear() === today.getFullYear();
+      
+      // Check if there's an event on this day
+      const hasEvent = calendarEvents.some(event => 
+        event.date.getDate() === day && 
+        event.date.getMonth() === month && 
+        event.date.getFullYear() === year
+      );
+      
+      days.push(
+        <div 
+          key={`current-${day}`} 
+          className={`${styles.miniCalendarDate} ${isToday ? styles.today : ''} ${hasEvent ? styles.hasEvent : ''}`}
+        >
+          <span>{day}</span>
+        </div>
+      );
+    }
+    
+    // Add days from next month to complete the grid
+    const totalCells = 42; // 6 rows of 7 days
+    const remainingCells = totalCells - (firstDayOfMonth + lastDayOfMonth);
+    
+    for (let day = 1; day <= remainingCells; day++) {
+      days.push(
+        <div key={`next-${day}`} className={`${styles.miniCalendarDate} ${styles.otherMonth}`}>
+          <span>{day}</span>
+        </div>
+      );
+    }
+    
+    return days;
+  };
+
   return (
     <div className={styles.container}>
-      <Link href="/" className={styles.backButton}>← Back to Home</Link>
       <Head>
         <title>Mav360 - Your Premier Event Venue</title>
         <meta name="description" content="A 3,500-seat arena for sports, concerts, trade shows, and community events" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header 
-        className={`${styles.header} ${isHeaderSticky ? styles.stickyHeader : ''}`} 
-        style={{ transform: hideHeader ? 'translateY(-100%)' : 'translateY(0)' }}
-      >
-        <div className={styles.headerContainer}>
-          <div className={styles.logo}>Mav360</div>
-          <nav>
-            <ul className={styles.navLinks}>
-              <li><Link href="#events">Events</Link></li>
-              <li><Link href="/boxOffice">Tickets</Link></li>
-              <li><Link href="#information">Information</Link></li>
-              <li><Link href="#plan">Plan Your Event</Link></li>
-              <li><Link href="/contactInfo">Contact</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-
       <div className={styles.heroVideo}>
         <div className={styles.videoPlaceholder}></div>
         <div className={styles.heroContent}>
           <h1>Welcome to Mav360</h1>
-          <p>A state-of-the-art 3,500-seat venue for sports, concerts, trade shows, and community events</p>
+          <p>A state-of-the-art 3,500-seat venue at Marvin Ridge High School for sports, concerts, trade shows, and community events</p>
           <div className={styles.ctaButtons}>
             <Link href="#events" className={styles.ctaButton}>Explore Events</Link>
             <Link href="/boxOffice" className={styles.ctaButton + ' ' + styles.ctaOutline}>Buy Tickets</Link>
@@ -134,31 +223,58 @@ export default function HomePage() {
       <main className={styles.mainContent}>
         <section id="events" className={styles.featuredEvents}>
           <div className={styles.section}>
-            <div className={styles.sectionHeading}>
-              <h2>Events Calendar</h2>
-              <p>Browse upcoming events at Mav360</p>
+            <div className={styles.eventsCalendarSection}>
+              {/* Left side - Events info */}
+              <div className={styles.eventsInfo}>
+                <h2>Events Calendar</h2>
+                <p>Browse or book upcoming events at Mav360</p>
+              </div>
+              
+              {/* Right side - Mini calendar */}
+              <div className={styles.miniCalendarContainer}>
+                <div className={styles.miniCalendarHeader}>
+                  <div className={styles.miniCalendarTitle}>
+                    {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  </div>
+                  <div className={styles.miniCalendarNav}>
+                    <button onClick={handlePrevMonth} aria-label="Previous month">
+                      <FaChevronLeft />
+                    </button>
+                    <button onClick={handleNextMonth} aria-label="Next month">
+                      <FaChevronRight />
+                    </button>
+                  </div>
+                </div>
+                
+                <div className={styles.miniCalendarGrid}>
+                  {renderMiniCalendar()}
+                </div>
+                
+                <Link href="/calendar" className={styles.viewFullCalendarButton}>
+                  View Full Calendar
+                </Link>
+              </div>
             </div>
-            <Link href="/calendar" className={styles.calendarButton}>
-              View Full Calendar
-              <br />
-              <span style={{ fontSize: "16px", opacity: 0.8 }}>Click to see all events and schedules</span>
-            </Link>
+            
             <div className={styles.eventsGrid}>
               <EventCard 
                 date="March 15, 2025"
                 title="Regional Basketball Tournament"
                 description="Join us for the exciting regional basketball tournament featuring teams from across the state."
+                image="https://images.unsplash.com/photo-1504450758481-7338eba7524a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
               />
               <EventCard 
                 date="April 5, 2025"
                 title="Spring Concert Series"
                 description="Experience an unforgettable night of music with our spring concert series featuring local artists."
+                image="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
               />
               <EventCard 
                 date="May 20-22, 2025"
                 title="Community Trade Show"
                 description="Discover local businesses and innovations at our annual community trade show and expo."
                 buttonText="Learn More"
+                image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
               />
             </div>
           </div>
@@ -190,7 +306,7 @@ export default function HomePage() {
                 title="Rent the Arena"
                 description="Host your next event at our state-of-the-art facility."
                 buttonText="Plan Your Event"
-                buttonLink="#plan"
+                buttonLink="/rentArena"
               />
               <AccessCard 
                 icon="📋"
@@ -255,7 +371,7 @@ export default function HomePage() {
             <ul className={styles.footerLinks}>
               <li><Link href="#events">Events Calendar</Link></li>
               <li><Link href="/boxOffice">Buy Tickets</Link></li>
-              <li><Link href="#plan">Plan Your Event</Link></li>
+              <li><Link href="/rentArena">Plan Your Event</Link></li>
               <li><Link href="#">Seating Charts</Link></li>
               <li><Link href="#">Amenities</Link></li>
             </ul>
@@ -289,13 +405,22 @@ export default function HomePage() {
 }
 
 // Component for event cards
-function EventCard({ date, title, description, buttonText = "Get Tickets" }: EventCardProps) {
+function EventCard({ date, title, description, buttonText = "Get Tickets", image }: EventCardProps) {
   return (
     <div className={styles.eventCard}>
-      <div className={styles.eventImage} style={{ backgroundImage: "url('/api/placeholder/400/200')" }}></div>
+      <div 
+        className={styles.eventImage} 
+        style={{ 
+          backgroundImage: `url('${image || '/api/placeholder/400/200'}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      ></div>
       <div className={styles.eventDetails}>
-        <span className={styles.eventDate}>{date}</span>
-        <h3 className={styles.eventTitle}>{title}</h3>
+        <div>
+          <span className={styles.eventDate}>{date}</span>
+          <h3 className={styles.eventTitle}>{title}</h3>
+        </div>
         <p>{description}</p>
         <Link href="#" className={styles.ctaButton}>{buttonText}</Link>
       </div>
