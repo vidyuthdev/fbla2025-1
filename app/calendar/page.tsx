@@ -2,6 +2,7 @@
 
 // ... existing imports ...
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import styles from "./calendar.module.css";
 
 interface CalendarEvent {
@@ -166,8 +167,10 @@ function EditableCalendar() {
 export default function CalendarPage() {
   return (
     <div>
+      <Link href="/" className={styles.backButton}>← Back to Home</Link>
       <h1 style={{ textAlign: 'center', margin: '2rem 0', color: '#333' }}>Mav360 Events Calendar</h1>
       <EditableCalendar />
+      <Link href="/" className={styles.exitButton}>Exit to Homepage</Link>
     </div>
   );
 }

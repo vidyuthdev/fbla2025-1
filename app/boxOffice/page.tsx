@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import styles from "./boxOffice.module.css";
 
 interface Event {
@@ -38,6 +39,7 @@ export default function BoxOfficePage() {
 
   return (
     <div className={styles.container}>
+      <Link href="/" className={styles.backButton}>← Back to Home</Link>
       <header className={styles.header}>
         <h1>Box Office</h1>
         <p>Purchase tickets for upcoming events at Mav360</p>
@@ -60,6 +62,7 @@ export default function BoxOfficePage() {
           ))}
         </section>
       </main>
+      <Link href="/" className={styles.exitButton}>Exit to Homepage</Link>
     </div>
   );
 }
