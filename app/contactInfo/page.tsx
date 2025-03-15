@@ -51,6 +51,7 @@ export default function ContactInfoPage() {
 
   return (
     <div className={styles.container}>
+      <Link href="/" className={styles.backButton}>← Back to Home</Link>
       <header className={styles.header}>
         <h1>Contact Mav360</h1>
         <p>We'd love to hear from you! Fill out the form below and we'll get back to you as soon as possible.</p>
@@ -181,6 +182,7 @@ export default function ContactInfoPage() {
       <div className={styles.backLink}>
         <Link href="/">← Back to Home</Link>
       </div>
+      <Link href="/" className={styles.exitButton}>Exit to Homepage</Link>
     </div>
   );
 }

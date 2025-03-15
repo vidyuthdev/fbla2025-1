@@ -94,6 +94,7 @@ export default function HomePage() {
 
   return (
     <div className={styles.container}>
+      <Link href="/" className={styles.backButton}>← Back to Home</Link>
       <Head>
         <title>Mav360 - Your Premier Event Venue</title>
         <meta name="description" content="A 3,500-seat arena for sports, concerts, trade shows, and community events" />
