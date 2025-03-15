@@ -2,7 +2,7 @@
 
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./homepage.module.css";
 
 interface EventCardProps {
@@ -38,6 +38,8 @@ interface CalendarEvent {
 export default function HomePage() {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [hideHeader, setHideHeader] = useState(false);
   
   useEffect(() => {
     // Simulate video loading
@@ -46,20 +48,49 @@ export default function HomePage() {
     }, 1000);
     
     const handleScroll = () => {
-      // Make header sticky after scrolling down 100px
-      if (window.scrollY > 100) {
+      const currentScrollY = window.scrollY;
+      
+      // Make header sticky after scrolling down 20px
+      if (currentScrollY > 20) {
         setIsHeaderSticky(true);
       } else {
         setIsHeaderSticky(false);
       }
+      
+      // Hide header when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setHideHeader(true);
+      } else {
+        setHideHeader(false);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(this: HTMLAnchorElement, e: Event) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        if (!href) return;
+        
+        const targetElement = document.querySelector(href);
+        if (!targetElement) return;
+        
+        window.scrollTo({
+          top: targetElement.getBoundingClientRect().top + window.scrollY - 60,
+          behavior: 'smooth'
+        });
+      });
+    });
+    
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [lastScrollY]);
 
   return (
     <div className={styles.container}>
@@ -69,7 +100,10 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className={`${styles.header} ${isHeaderSticky ? styles.stickyHeader : ''}`}>
+      <header 
+        className={`${styles.header} ${isHeaderSticky ? styles.stickyHeader : ''}`} 
+        style={{ transform: hideHeader ? 'translateY(-100%)' : 'translateY(0)' }}
+      >
         <div className={styles.headerContainer}>
           <div className={styles.logo}>Mav360</div>
           <nav>
@@ -85,12 +119,10 @@ export default function HomePage() {
       </header>
 
       <div className={styles.heroVideo}>
-        <div className={`${styles.videoPlaceholder} ${isVideoLoading ? styles.hidden : ''}`}>
-          <div className={styles.loadingSpinner}></div>
-        </div>
+        <div className={styles.videoPlaceholder}></div>
         <div className={styles.heroContent}>
           <h1>Welcome to Mav360</h1>
-          <p>A state-of-the-art 3,500-seat venue at Marvin Ridge High School for sports, concerts, trade shows, and community events</p>
+          <p>A state-of-the-art 3,500-seat venue for sports, concerts, trade shows, and community events</p>
           <div className={styles.ctaButtons}>
             <Link href="#events" className={styles.ctaButton}>Explore Events</Link>
             <Link href="/boxOffice" className={styles.ctaButton + ' ' + styles.ctaOutline}>Buy Tickets</Link>
@@ -98,7 +130,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <main>
+      <main className={styles.mainContent}>
         <section id="events" className={styles.featuredEvents}>
           <div className={styles.section}>
             <div className={styles.sectionHeading}>
@@ -132,7 +164,7 @@ export default function HomePage() {
         </section>
 
         <section className={styles.quickAccess} id="information">
-          <div className={styles.container}>
+          <div className={styles.section}>
             <div className={styles.sectionHeading}>
               <h2>Quick Access</h2>
               <p>Everything you need to know about The Mav360 Stadium</p>
@@ -153,25 +185,25 @@ export default function HomePage() {
                 buttonLink="#"
               />
               <AccessCard 
-                icon="📋"
-                title="Arena Policies"
-                description="Review our policies for attendance, food, and more."
-                buttonText="Learn More"
-                buttonLink="#"
-              />
-              <AccessCard 
                 icon="🏢"
                 title="Rent the Arena"
                 description="Host your next event at our state-of-the-art facility."
                 buttonText="Plan Your Event"
                 buttonLink="#plan"
               />
+              <AccessCard 
+                icon="📋"
+                title="Policies & Amenities"
+                description="Review our policies and learn about the amenities available at Mav360!"
+                buttonText="Learn More"
+                buttonLink="#"
+              />
             </div>
           </div>
         </section>
 
         <section className={styles.testimonials}>
-          <div className={styles.container}>
+          <div className={styles.section}>
             <div className={styles.sectionHeading}>
               <h2>What People Are Saying</h2>
               <p>Hear from event organizers and attendees</p>
@@ -191,8 +223,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className={styles.newsletter}>
-          <div className={`${styles.container} ${styles.newsletterContainer}`}>
+        <section className={styles.newsletter} id="plan">
+          <div className={styles.newsletterContainer}>
             <h2>Stay Updated</h2>
             <p>Subscribe to our newsletter to receive updates on upcoming events, special offers, and more.</p>
             <form className={styles.subscribeForm}>
@@ -204,53 +236,51 @@ export default function HomePage() {
       </main>
 
       <footer className={styles.footer}>
-        <div className={styles.container}>
-          <div className={styles.footerGrid}>
-            <div className={styles.footerColumn}>
-              <h3>Mav360</h3>
-              <p>2825 Crane Rd, Waxhaw, NC 28173
-              <br />Waxhaw, NC 28173</p>
-              <p>Phone: (555) 123-4567<br />Email: info@mav360.org</p>
-              <div className={styles.socialIcons}>
-                <a href="#" className={styles.socialIcon}>FB</a>
-                <a href="#" className={styles.socialIcon}>TW</a>
-                <a href="#" className={styles.socialIcon}>IG</a>
-                <a href="#" className={styles.socialIcon}>YT</a>
-              </div>
-            </div>
-            <div className={styles.footerColumn}>
-              <h3>Quick Links</h3>
-              <ul className={styles.footerLinks}>
-                <li><Link href="#events">Events Calendar</Link></li>
-                <li><Link href="/boxOffice">Buy Tickets</Link></li>
-                <li><Link href="#plan">Plan Your Event</Link></li>
-                <li><Link href="#">Seating Charts</Link></li>
-                <li><Link href="#">Amenities</Link></li>
-              </ul>
-            </div>
-            <div className={styles.footerColumn}>
-              <h3>Information</h3>
-              <ul className={styles.footerLinks}>
-                <li><Link href="#">About Us</Link></li>
-                <li><Link href="#">FAQs</Link></li>
-                <li><Link href="#">Accessibility</Link></li>
-                <li><Link href="#">Safety Policies</Link></li>
-                <li><Link href="/contactInfo">Contact Us</Link></li>
-              </ul>
-            </div>
-            <div className={styles.footerColumn}>
-              <h3>Legal</h3>
-              <ul className={styles.footerLinks}>
-                <li><Link href="#">Terms & Conditions</Link></li>
-                <li><Link href="#">Privacy Policy</Link></li>
-                <li><Link href="#">Cookie Policy</Link></li>
-                <li><Link href="#">Refund Policy</Link></li>
-              </ul>
+        <div className={styles.footerGrid}>
+          <div className={styles.footerColumn}>
+            <h3>Mav360</h3>
+            <p>2825 Crane Rd, Waxhaw, NC 28173
+            <br />Waxhaw, NC 28173</p>
+            <p>Phone: (555) 123-4567<br />Email: info@mav360.org</p>
+            <div className={styles.socialIcons}>
+              <a href="#" className={styles.socialIcon}>FB</a>
+              <a href="#" className={styles.socialIcon}>TW</a>
+              <a href="#" className={styles.socialIcon}>IG</a>
+              <a href="#" className={styles.socialIcon}>YT</a>
             </div>
           </div>
-          <div className={styles.copyright}>
-            <p>&copy; 2025 Mav360. All rights reserved.</p>
+          <div className={styles.footerColumn}>
+            <h3>Quick Links</h3>
+            <ul className={styles.footerLinks}>
+              <li><Link href="#events">Events Calendar</Link></li>
+              <li><Link href="/boxOffice">Buy Tickets</Link></li>
+              <li><Link href="#plan">Plan Your Event</Link></li>
+              <li><Link href="#">Seating Charts</Link></li>
+              <li><Link href="#">Amenities</Link></li>
+            </ul>
           </div>
+          <div className={styles.footerColumn}>
+            <h3>Information</h3>
+            <ul className={styles.footerLinks}>
+              <li><Link href="#">About Us</Link></li>
+              <li><Link href="#">FAQs</Link></li>
+              <li><Link href="#">Accessibility</Link></li>
+              <li><Link href="#">Safety Policies</Link></li>
+              <li><Link href="/contactInfo">Contact Us</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerColumn}>
+            <h3>Legal</h3>
+            <ul className={styles.footerLinks}>
+              <li><Link href="#">Terms & Conditions</Link></li>
+              <li><Link href="#">Privacy Policy</Link></li>
+              <li><Link href="#">Cookie Policy</Link></li>
+              <li><Link href="#">Refund Policy</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className={styles.copyright}>
+          <p>&copy; 2025 Mav360. All rights reserved.</p>
         </div>
       </footer>
     </div>

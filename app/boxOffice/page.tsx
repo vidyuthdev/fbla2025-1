@@ -1,65 +1,141 @@
 "use client";
 
-import { useState } from "react";
-import styles from "./boxOffice.module.css";
+import { useState } from 'react';
+import Link from 'next/link';
+import styles from './boxOffice.module.css';
+import { FaCalendarAlt, FaTicketAlt, FaArrowLeft } from 'react-icons/fa';
 
 interface Event {
-  id: string;
+  id: number;
   title: string;
   date: string;
   price: string;
-  available: number;
+  availability: 'Available' | 'Limited Seats' | 'Sold Out';
+  image: string;
 }
 
-export default function BoxOfficePage() {
-  const [events] = useState<Event[]>([
+export default function BoxOffice() {
+  const [events, setEvents] = useState<Event[]>([
     {
-      id: "1",
-      title: "Indoor Charlotte V. Fort Mill Tennis Showdown",
-      date: "March 29, 2025",
-      price: "$25 per Adult, $15 per Student, $10 per Senior",
-      available: 3100
+      id: 1,
+      title: "Championship Basketball Finals",
+      date: "June 15, 2023 - 7:00 PM",
+      price: "$45.00 - $120.00",
+      availability: "Available",
+      image: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
     },
     {
-      id: "2",
-      title: "Women's Varsity Basketball V. Cuthberston",
-      date: "April 5, 2025",
-      price: "$35 per Adult, $25 per Student, $15 per Senior",
-      available: 3500
+      id: 2,
+      title: "Rock Concert: The Amplifiers",
+      date: "July 3, 2023 - 8:30 PM",
+      price: "$65.00 - $150.00",
+      availability: "Limited Seats",
+      image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
     },
     {
-      id: "3",
-      title: "Mavericks V. Weddington Volleyball Showdown",
-      date: "May 20-22, 2025",
-      price: "$15 per Adult, $10 per Student, $5 per Senior",
-      available: 3500
+      id: 3,
+      title: "International Trade Show",
+      date: "August 10-12, 2023 - All Day",
+      price: "$25.00 per day",
+      availability: "Available",
+      image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      id: 4,
+      title: "Summer Wrestling Championship",
+      date: "July 22, 2023 - 6:00 PM",
+      price: "$35.00 - $85.00",
+      availability: "Sold Out",
+      image: "https://images.unsplash.com/photo-1555597673-b21d5c935865?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      id: 5,
+      title: "Classical Symphony Orchestra",
+      date: "September 5, 2023 - 7:30 PM",
+      price: "$55.00 - $130.00",
+      availability: "Available",
+      image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      id: 6,
+      title: "Community Charity Gala",
+      date: "October 1, 2023 - 6:00 PM",
+      price: "$75.00",
+      availability: "Limited Seats",
+      image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
     }
   ]);
+
+  const getAvailabilityClass = (availability: string) => {
+    switch (availability) {
+      case 'Available':
+        return styles.available;
+      case 'Limited Seats':
+        return styles.limited;
+      case 'Sold Out':
+        return styles.soldOut;
+      default:
+        return '';
+    }
+  };
+
+  const handlePurchase = (id: number) => {
+    alert(`Ticket purchase initiated for event #${id}. Redirecting to payment...`);
+  };
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <h1>Box Office</h1>
-        <p>Purchase tickets for upcoming events at Mav360</p>
+        <p>Browse and purchase tickets for upcoming events at our arena</p>
       </header>
 
-      <main className={styles.main}>
-        <section className={styles.ticketList}>
-          {events.map(event => (
-            <div key={event.id} className={styles.ticketCard}>
-              <div className={styles.eventInfo}>
-                <h2>{event.title}</h2>
-                <p className={styles.date}>{event.date}</p>
-                <p className={styles.price}>Tickets from {event.price}</p>
-                <p className={styles.availability}>{event.available} tickets available</p>
+      <div className={styles.ticketList}>
+        {events.map((event, index) => (
+          <div 
+            key={event.id} 
+            className={styles.ticketCard} 
+            style={{ '--index': index } as React.CSSProperties}
+          >
+            <img 
+              src={event.image} 
+              alt={event.title} 
+              className={styles.eventImage} 
+            />
+            <div className={styles.eventDetails}>
+              <h2 className={styles.eventTitle}>{event.title}</h2>
+              
+              <div className={styles.eventDate}>
+                <span className={styles.eventIcon}><FaCalendarAlt /></span>
+                {event.date}
               </div>
-              <button className={styles.purchaseButton}>
-                Purchase Tickets
+              
+              <div className={styles.eventPrice}>
+                <span className={styles.eventIcon}><FaTicketAlt /></span>
+                {event.price}
+              </div>
+              
+              <span className={`${styles.availabilityTag} ${getAvailabilityClass(event.availability)}`}>
+                {event.availability}
+              </span>
+              
+              <button 
+                className={styles.purchaseButton}
+                onClick={() => handlePurchase(event.id)}
+                disabled={event.availability === 'Sold Out'}
+              >
+                {event.availability === 'Sold Out' ? 'Sold Out' : 'Purchase Tickets'}
               </button>
             </div>
-          ))}
-        </section>
-      </main>
+          </div>
+        ))}
+      </div>
+
+      <div className={styles.backLink}>
+        <Link href="/">
+          <FaArrowLeft style={{ marginRight: '0.5rem' }} /> Back to Home
+        </Link>
+      </div>
     </div>
   );
 }

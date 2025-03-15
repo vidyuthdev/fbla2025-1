@@ -3,6 +3,8 @@
 // ... existing imports ...
 import { useState, useEffect } from "react";
 import styles from "./calendar.module.css";
+import Link from "next/link";
+import { redirect } from 'next/navigation';
 
 interface CalendarEvent {
   id: string;
@@ -163,12 +165,26 @@ function EditableCalendar() {
   );
 }
 
-export default function CalendarPage() {
+export default function Calendar() {
   return (
-    <div>
-      <h1 style={{ textAlign: 'center', margin: '2rem 0', color: '#333' }}>Mav360 Events Calendar</h1>
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <h1>Event Calendar</h1>
+        <p>Browse upcoming events and plan your visit to our arena</p>
+      </header>
+      
       <EditableCalendar />
+      
+      <div className={styles.backLink}>
+        <Link href="/">
+          Back to Home
+        </Link>
+      </div>
     </div>
   );
+}
+
+export function Home() {
+  redirect('/homepage');
 }
 

@@ -1,11 +1,57 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem 4rem;
+  color: #111;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  text-align: center;
+  margin: 0 0 5rem;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.header p {
+  font-size: 1.5rem;
+  color: #ffffff;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
 .editableCalendar {
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin: 2rem auto;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
+  margin: 0 auto 4rem;
   max-width: 1200px;
   color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
 }
 
 .calendarHeader {
@@ -13,6 +59,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+}
+
+.calendarHeader h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #111;
+  letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .calendarNav {
@@ -25,13 +79,16 @@
   color: white;
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 5px;
+  border-radius: 980px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
 }
 
 .calendarNav button:hover {
   background: #0051a8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .calendarGrid {
@@ -45,7 +102,7 @@
   text-align: center;
   font-weight: 500;
   padding: 0.5rem;
-  background: #f5f5f5;
+  background: #f5f5f7;
   border-radius: 5px;
 }
 
@@ -119,11 +176,38 @@
   color: white;
   border: none;
   padding: 0.5rem 1.5rem;
-  border-radius: 5px;
+  border-radius: 980px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
 }
 
 .addEventForm button:hover {
   background: #0051a8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.backLink {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.backLink a {
+  color: #0070f3;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: 400;
+  padding: 0.75rem 1.5rem;
+  border-radius: 980px;
+  background: rgba(0, 112, 243, 0.1);
+}
+
+.backLink a:hover {
+  color: #0051a8;
+  background: rgba(0, 112, 243, 0.15);
+  transform: translateY(-2px);
 }
