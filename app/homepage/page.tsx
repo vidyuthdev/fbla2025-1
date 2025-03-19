@@ -209,7 +209,18 @@ export default function HomePage() {
       </Head>
 
       <div className={styles.heroVideo}>
-        <div className={styles.videoPlaceholder}></div>
+        {!isVideoLoading && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={styles.backgroundVideo}
+          >
+            <source src="/fbla2025.mp4" type="video/mp4" />
+          </video>
+        )}
+        <div className={styles.videoOverlay}></div>
         <div className={styles.heroContent}>
           <h1>Welcome to Mav360</h1>
           <p>A state-of-the-art 3,500-seat venue at Marvin Ridge High School for sports, concerts, trade shows, and community events</p>

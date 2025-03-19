@@ -83,14 +83,46 @@
 
 .heroVideo {
   position: relative;
+  width: 100%;
   height: 100vh;
-  background: #000;
+  min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.backgroundVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 1;
+  object-fit: cover;
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 3;
   text-align: center;
-  margin-top: 0;
+  color: white;
+  padding: 2rem;
+  max-width: 800px;
 }
 
 .videoPlaceholder {
@@ -115,21 +147,6 @@
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
-}
-
-.heroContent {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  color: white;
-  animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .heroContent h1 {
