@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import styles from "./homepage.module.css";
-import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaCalendarAlt, FaRedo } from 'react-icons/fa';
 
 interface EventCardProps {
   date: string;
@@ -43,6 +43,15 @@ interface MiniCalendarEvent {
   title: string;
 }
 
+// Add new interfaces
+interface RecommendedAction {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  type: 'rebook' | 'view' | 'complete';
+}
+
 export default function HomePage() {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [isHeaderSticky, setIsHeaderSticky] = useState(false);
@@ -57,6 +66,26 @@ export default function HomePage() {
     { date: new Date(2025, 3, 20), title: "Community Trade Show" },
     { date: new Date(2025, 4, 10), title: "Summer Wrestling Championship" }
   ]);
+  
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [userName, setUserName] = useState("Vidyuth.");
+  const [recommendedActions, setRecommendedActions] = useState<RecommendedAction[]>([
+    {
+      id: '1',
+      title: 'Marvin Ridge V. Weddington Girls Basketball',
+      date: 'March 29, 2025',
+      description: 'Your previous booking from 2/28/2025 for Girls Varsity Basketball. Would you like to book it again?',
+      type: 'rebook'
+    },
+    {
+      id: '2',
+      title: 'MRHS PTSO Spring Conference',
+      date: 'April 12, 2025',
+      description: 'Complete your booking for the Spring PTSO Conference to secure your seats.',
+      type: 'complete'
+    }
+  ]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   
   useEffect(() => {
     // Simulate video loading
@@ -108,6 +137,24 @@ export default function HomePage() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollY]);
+
+  // Add action handlers
+  const handleActionClick = async (action: RecommendedAction) => {
+    switch (action.type) {
+      case 'rebook':
+        // Navigate to booking page with pre-filled event details
+        window.location.href = `/boxOffice?event=${encodeURIComponent(action.title)}&date=${encodeURIComponent(action.date)}`;
+        break;
+      case 'complete':
+        // Navigate to booking completion page
+        window.location.href = `/boxOffice/complete?event=${encodeURIComponent(action.title)}`;
+        break;
+      case 'view':
+        // Navigate to event details page
+        window.location.href = `/events/${encodeURIComponent(action.id)}`;
+        break;
+    }
+  };
 
   // Mini calendar functions
   const handlePrevMonth = () => {
@@ -200,6 +247,11 @@ export default function HomePage() {
     return days;
   };
 
+  const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
+    setShowBookingModal(true);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -217,7 +269,7 @@ export default function HomePage() {
             playsInline
             className={styles.backgroundVideo}
           >
-            <source src="/fbla2025.mp4" type="video/mp4" />
+            <source src="/fbla20252.mp4" type="video/mp4" />
           </video>
         )}
         <div className={styles.videoOverlay}></div>
@@ -227,6 +279,48 @@ export default function HomePage() {
           <div className={styles.ctaButtons}>
             <Link href="#events" className={styles.ctaButton}>Explore Events</Link>
             <Link href="/boxOffice" className={styles.ctaButton + ' ' + styles.ctaOutline}>Buy Tickets</Link>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.welcomeSection}>
+        <div className={styles.welcomeContainer}>
+          <div className={styles.welcomeHeader}>
+            <h2 className={styles.welcomeText}>
+              Welcome back, <span>{userName}</span>
+            </h2>
+          </div>
+          
+          <div className={styles.recommendedActions}>
+            {recommendedActions.map(action => (
+              <div key={action.id} className={styles.actionCard}>
+                <div className={styles.actionHeader}>
+                  <h3 className={styles.actionTitle}>{action.title}</h3>
+                  <span className={styles.actionDate}>{action.date}</span>
+                </div>
+                <p className={styles.actionDescription}>{action.description}</p>
+                <button 
+                  className={styles.actionButton}
+                  onClick={() => handleActionClick(action)}
+                >
+                  {action.type === 'rebook' && (
+                    <>
+                      <FaRedo /> Rebook
+                    </>
+                  )}
+                  {action.type === 'complete' && (
+                    <>
+                      <FaCalendarAlt /> Complete Booking
+                    </>
+                  )}
+                  {action.type === 'view' && (
+                    <>
+                      <FaCalendarAlt /> View Details
+                    </>
+                  )}
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -411,6 +505,20 @@ export default function HomePage() {
           <p>&copy; 2025 Mav360. All rights reserved.</p>
         </div>
       </footer>
+
+      {showBookingModal && (
+        <div className={styles.bookingModalOverlay}>
+          <div className={styles.bookingModal}>
+            <div className={styles.bookingModalHeader}>
+              <h2 className={styles.bookingModalTitle}>Book Event</h2>
+              <button className={styles.closeButton} onClick={() => setShowBookingModal(false)}>×</button>
+            </div>
+            <form className={styles.bookingForm}>
+              {/* Add your form fields here */}
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

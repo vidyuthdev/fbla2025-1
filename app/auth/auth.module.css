@@ -1,0 +1,136 @@
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-gradient);
+  padding: 20px;
+}
+
+.authBox {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.authBox h1 {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formGroup label {
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.formGroup input {
+  padding: 12px;
+  border: 1px solid var(--primary-blue);
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  color: var(--text-primary);
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: var(--primary-peach);
+}
+
+.submitButton {
+  background: var(--primary-blue);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background: var(--primary-peach);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--primary-blue);
+}
+
+.divider span {
+  padding: 0 10px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.googleButton {
+  background: white;
+  color: var(--text-primary);
+  padding: 12px;
+  border: 1px solid var(--primary-blue);
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.googleButton:hover {
+  background: var(--primary-peach);
+  color: white;
+  border-color: var(--primary-peach);
+}
+
+.switchMode {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-primary);
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  color: var(--primary-blue);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin-left: 5px;
+}
+
+.switchButton:hover {
+  color: var(--primary-peach);
+  text-decoration: underline;
+}
+
+.error {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+} 
