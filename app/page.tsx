@@ -4,8 +4,30 @@ import Navbar from './components/Navbar';
 import SchoolPartners from './components/SchoolPartners';
 import styles from './page.module.css';
 import childCookingImage from '../public/images/child-cooking.jpg';
+import { useState } from 'react';
 
 export default function Home() {
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
+
+  // Function to handle image errors and use placeholders
+  const handleImageError = (imageId: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [imageId]: true
+    }));
+  };
+
+  // Get image URL with fallback
+  const getImageUrl = (path: string, altText: string) => {
+    const imageId = path.replace(/\/|\./g, '-');
+    
+    if (imageErrors[imageId]) {
+      // Return placeholder
+      return `https://via.placeholder.com/400x300/A7D1F0/000000?text=${encodeURIComponent(altText)}`;
+    }
+    return path;
+  };
+
   return (
     <main className={styles.main}>
       <Navbar />
@@ -130,42 +152,66 @@ export default function Home() {
             Our most loved recipes that young chefs enjoy making and eating!
           </p>
           
-          <div className={styles.recipes}>
-            <Link href="/recipes/1" className={styles.recipeCard}>
-              <div className={styles.recipeImage} style={{backgroundImage: `url('/images/recipes/pancakes.jpg')`}}></div>
+          <div className={styles.recipeCardsContainer}>
+            <div className={styles.recipeCard}>
+              <div className={styles.recipeImageWrapper}>
+                <div 
+                  className={styles.recipeImage} 
+                  style={{backgroundImage: `url('${getImageUrl('/images/recipes/pancakes.jpg', 'Fluffy Pancakes')}')`}}
+                  onError={() => handleImageError('images-recipes-pancakes-jpg')}
+                ></div>
+                <div className={styles.difficulty}>Beginner</div>
+              </div>
               <div className={styles.recipeContent}>
-                <div>
-                  <span className={`${styles.difficultyBadge} ${styles.beginner}`}>Beginner</span>
-                  <span className={styles.prepTime}>20 mins</span>
-                </div>
                 <h3>Fluffy Pancakes</h3>
-                <p>Easy pancakes with fresh berries that anyone can make!</p>
-              </div>
-            </Link>
-            
-            <Link href="/recipes/2" className={styles.recipeCard}>
-              <div className={styles.recipeImage} style={{backgroundImage: `url('/images/recipes/pasta.jpg')`}}></div>
-              <div className={styles.recipeContent}>
-                <div>
-                  <span className={`${styles.difficultyBadge} ${styles.intermediate}`}>Intermediate</span>
-                  <span className={styles.prepTime}>30 mins</span>
+                <p>Light, airy pancakes that are perfect for a weekend breakfast.</p>
+                <div className={styles.recipeMetaData}>
+                  <span className={styles.time}>15 min</span>
+                  <span className={styles.mealType}>Breakfast</span>
                 </div>
-                <h3>Veggie Pasta</h3>
-                <p>Colorful pasta loaded with tasty vegetables</p>
+                <Link href="/recipes/fluffy-pancakes" className={styles.viewRecipe}>View Recipe</Link>
               </div>
-            </Link>
-            
-            <Link href="/recipes/3" className={styles.recipeCard}>
-              <div className={styles.recipeImage} style={{backgroundImage: `url('/images/recipes/cookies.jpg')`}}></div>
+            </div>
+
+            <div className={styles.recipeCard}>
+              <div className={styles.recipeImageWrapper}>
+                <div 
+                  className={styles.recipeImage} 
+                  style={{backgroundImage: `url('${getImageUrl('/images/recipes/pasta.jpg', 'Simple Pasta')}')`}}
+                  onError={() => handleImageError('images-recipes-pasta-jpg')}
+                ></div>
+                <div className={styles.difficulty}>Beginner</div>
+              </div>
               <div className={styles.recipeContent}>
-                <div>
-                  <span className={`${styles.difficultyBadge} ${styles.beginner}`}>Beginner</span>
-                  <span className={styles.prepTime}>25 mins</span>
+                <h3>Simple Pasta</h3>
+                <p>A quick and delicious pasta dish that's perfect for busy weeknights.</p>
+                <div className={styles.recipeMetaData}>
+                  <span className={styles.time}>20 min</span>
+                  <span className={styles.mealType}>Dinner</span>
                 </div>
+                <Link href="/recipes/simple-pasta" className={styles.viewRecipe}>View Recipe</Link>
+              </div>
+            </div>
+
+            <div className={styles.recipeCard}>
+              <div className={styles.recipeImageWrapper}>
+                <div 
+                  className={styles.recipeImage} 
+                  style={{backgroundImage: `url('${getImageUrl('/images/recipes/cookies.jpg', 'Chocolate Chip Cookies')}')`}}
+                  onError={() => handleImageError('images-recipes-cookies-jpg')}
+                ></div>
+                <div className={styles.difficulty}>Intermediate</div>
+              </div>
+              <div className={styles.recipeContent}>
                 <h3>Chocolate Chip Cookies</h3>
-                <p>Classic cookies that are crispy outside, chewy inside</p>
+                <p>Classic cookies with the perfect balance of chewy and crispy.</p>
+                <div className={styles.recipeMetaData}>
+                  <span className={styles.time}>30 min</span>
+                  <span className={styles.mealType}>Dessert</span>
+                </div>
+                <Link href="/recipes/chocolate-chip-cookies" className={styles.viewRecipe}>View Recipe</Link>
               </div>
-            </Link>
+            </div>
           </div>
           
           <div className={styles.viewAllContainer}>
@@ -217,7 +263,7 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.footerContainer}>
           <div className={styles.footerLogo}>
-            KidChef<span className={styles.logoAccent}>🍳</span>
+            CookCraft<span className={styles.logoAccent}>🍳</span>
           </div>
           <p className={styles.footerTagline}>Making cooking fun for young chefs!</p>
           
@@ -246,7 +292,7 @@ export default function Home() {
           </div>
           
           <div className={styles.footerBottom}>
-            © {new Date().getFullYear()} KidChef. All rights reserved.
+            © {new Date().getFullYear()} CookCraft. All rights reserved.
           </div>
         </div>
       </footer>

@@ -162,6 +162,7 @@ export default function AllRecipes() {
     prepTime: '',
     dietary: ''
   });
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   const filterRecipes = () => {
     return recipes.filter(recipe => {
@@ -232,6 +233,23 @@ export default function AllRecipes() {
       prepTime: '',
       dietary: ''
     });
+  };
+
+  // Handle image error
+  const handleImageError = (recipeId: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [recipeId]: true
+    }));
+  };
+
+  // Get image URL with fallback
+  const getImageUrl = (recipe: RecipeType) => {
+    if (imageErrors[recipe.id]) {
+      // Return placeholder for errored images
+      return `https://via.placeholder.com/300x200/A7D1F0/000000?text=${encodeURIComponent(recipe.title)}`;
+    }
+    return recipe.image;
   };
 
   return (
@@ -334,37 +352,34 @@ export default function AllRecipes() {
             {filteredRecipes.length > 0 ? (
               filteredRecipes.map(recipe => (
                 <Link href={`/recipes/${recipe.id}`} key={recipe.id} className={styles.recipeCard}>
-                  <div 
-                    className={styles.recipeImage} 
-                    style={{ backgroundImage: `url(${recipe.image})` }}
-                  ></div>
-                  <div className={styles.recipeContent}>
-                    <div className={styles.recipeMeta}>
-                      <span className={`${styles.difficultyBadge} ${getDifficultyClass(recipe.difficulty)}`}>
-                        {recipe.difficulty.charAt(0).toUpperCase() + recipe.difficulty.slice(1)}
-                      </span>
-                      <span className={styles.prepTime}>{recipe.prepTime} min</span>
-                    </div>
+                  <div className={styles.recipeImageContainer}>
+                    <div 
+                      className={styles.recipeImage} 
+                      style={{ backgroundImage: `url(${getImageUrl(recipe)})` }}
+                      onError={() => handleImageError(recipe.id)}
+                    ></div>
+                    <span className={`${styles.recipeDifficulty} ${getDifficultyClass(recipe.difficulty)}`}>
+                      {recipe.difficulty}
+                    </span>
+                  </div>
+                  <div className={styles.recipeInfo}>
                     <h3 className={styles.recipeTitle}>{recipe.title}</h3>
                     <p className={styles.recipeDescription}>{recipe.description}</p>
-                    <div className={styles.recipeCategories}>
-                      {recipe.mealType.slice(0, 2).map((type, index) => (
-                        <span key={index} className={styles.categoryTag}>
-                          {type.charAt(0).toUpperCase() + type.slice(1)}
-                        </span>
-                      ))}
+                    <div className={styles.recipeDetails}>
+                      <span className={styles.prepTime}>{recipe.prepTime} min</span>
+                      <div className={styles.mealTypes}>
+                        {recipe.mealType.map(type => (
+                          <span key={type} className={styles.mealType}>{type}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </Link>
               ))
             ) : (
-              <div className={styles.noResults}>
-                <div className={styles.noResultsIcon}>🍽️</div>
-                <h2>No recipes found</h2>
-                <p>Try adjusting your filters or search terms</p>
-                <button className={styles.resetButton} onClick={clearFilters}>
-                  Reset Filters
-                </button>
+              <div className={styles.noRecipes}>
+                <p>No recipes found with the selected filters. Try adjusting your search criteria.</p>
+                <button className={styles.resetButton} onClick={clearFilters}>Reset Filters</button>
               </div>
             )}
           </div>

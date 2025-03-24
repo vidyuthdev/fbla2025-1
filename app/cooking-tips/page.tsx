@@ -1,8 +1,21 @@
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import styles from './cooking-tips.module.css';
+import { useState } from 'react';
+
+// Define the tip content type
+type TipContent = {
+  title?: string;
+  subtitle?: string;
+  text?: string;
+  description?: string;
+  image: string;
+};
 
 export default function CookingTips() {
+  const [activeCategory, setActiveCategory] = useState('knife-skills');
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
+
   const tips = [
     {
       id: 'knife-skills',
@@ -144,6 +157,32 @@ export default function CookingTips() {
     }
   ];
 
+  // Function to handle image errors and use placeholders
+  const handleImageError = (tipId: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [tipId]: true
+    }));
+  };
+
+  // Get image URL with fallback
+  const getImageUrl = (content: TipContent) => {
+    // Create a unique ID from the content - using title, subtitle or a combination
+    const tipId = (content.title || content.subtitle || '').replace(/\s+/g, '-').toLowerCase();
+    
+    if (imageErrors[tipId]) {
+      // Return placeholder for errored images with the tip title or subtitle
+      const displayText = content.title || content.subtitle || 'Cooking Tip';
+      return `https://via.placeholder.com/400x300/A7D1F0/000000?text=${encodeURIComponent(displayText)}`;
+    }
+    return content.image;
+  };
+
+  // Helper function to get a unique ID for each tip
+  const getTipId = (content: TipContent): string => {
+    return (content.title || content.subtitle || '').replace(/\s+/g, '-').toLowerCase();
+  };
+
   return (
     <main className={styles.main}>
       <Navbar />
@@ -169,30 +208,31 @@ export default function CookingTips() {
         </section>
         
         <section className={styles.tipDetailSection}>
-          {tips.map((tip) => (
-            <div key={tip.id} id={tip.id} className={styles.tipDetail}>
-              <div className={styles.tipDetailHeader}>
-                <div className={styles.tipDetailIcon}>{tip.icon}</div>
-                <h2 className={styles.tipDetailTitle}>{tip.title}</h2>
-              </div>
-              <p className={styles.tipDetailDescription}>{tip.description}</p>
-              
-              <div className={styles.tipContentList}>
-                {tip.content.map((content, index) => (
-                  <div key={index} className={styles.tipContentCard}>
-                    <div 
-                      className={styles.tipContentImage} 
-                      style={{ backgroundImage: `url(${content.image})` }}
-                    ></div>
-                    <div className={styles.tipContentText}>
-                      <h3 className={styles.tipContentTitle}>{content.subtitle}</h3>
-                      <p>{content.text}</p>
+          <div className={styles.tipContentWrapper}>
+            {tips.map((category, index) => (
+              <div 
+                key={index} 
+                className={`${styles.tipCategory} ${activeCategory === category.id ? styles.active : ''}`}
+              >
+                <h2 className={styles.categoryTitle}>{category.title}</h2>
+                <div className={styles.tipGrid}>
+                  {category.content.map((content, contentIndex) => (
+                    <div key={contentIndex} className={styles.tipCard}>
+                      <div className={styles.tipContentImage} 
+                        style={{ backgroundImage: `url(${getImageUrl(content)})` }}
+                        onError={() => handleImageError(getTipId(content))}
+                      >
+                      </div>
+                      <div className={styles.tipContentText}>
+                        <h3>{content.subtitle}</h3>
+                        <p>{content.text}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </section>
         
         <section className={styles.moreResourcesSection}>

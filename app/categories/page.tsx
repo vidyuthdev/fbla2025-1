@@ -122,6 +122,7 @@ const categories = [
 
 export default function Categories() {
   const [activeCategory, setActiveCategory] = useState<string>('breakfast');
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   // Filter recipes by the active category
   const filteredRecipes = recipes.filter(recipe => 
@@ -145,6 +146,23 @@ export default function Categories() {
       default:
         return '';
     }
+  };
+
+  // Handle image error
+  const handleImageError = (recipeId: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [recipeId]: true
+    }));
+  };
+
+  // Get image URL with fallback
+  const getImageUrl = (recipe: RecipeType) => {
+    if (imageErrors[recipe.id]) {
+      // Return placeholder for errored images
+      return `https://via.placeholder.com/300x200/A7D1F0/000000?text=${encodeURIComponent(recipe.title)}`;
+    }
+    return recipe.image;
   };
 
   return (
@@ -175,7 +193,11 @@ export default function Categories() {
             filteredRecipes.map(recipe => (
               <Link href={`/recipes/${recipe.id}`} key={recipe.id} className={styles.recipeCard}>
                 <div className={styles.recipeImageContainer}>
-                  <div className={styles.recipeImage} style={{ backgroundImage: `url(${recipe.image})` }}></div>
+                  <div 
+                    className={styles.recipeImage} 
+                    style={{ backgroundImage: `url(${getImageUrl(recipe)})` }}
+                    onError={() => handleImageError(recipe.id)}
+                  ></div>
                   <span className={`${styles.recipeDifficulty} ${getDifficultyClass(recipe.difficulty)}`}>
                     {recipe.difficulty}
                   </span>

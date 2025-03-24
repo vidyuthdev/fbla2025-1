@@ -173,6 +173,12 @@ export default function RecipeFinder() {
   const [showResults, setShowResults] = useState(false);
   // Filtered recipes
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeType[]>([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const [selectedMealType, setSelectedMealType] = useState<string>('');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
+  const [maxPrepTime, setMaxPrepTime] = useState<number>(60);
+  const [matchedRecipes, setMatchedRecipes] = useState<RecipeType[]>([]);
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   // Get current question
   const currentQuestion = questions[currentQuestionIndex];
@@ -255,6 +261,23 @@ export default function RecipeFinder() {
     }
   };
 
+  // Handle image error
+  const handleImageError = (recipeId: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [recipeId]: true
+    }));
+  };
+
+  // Get image URL with fallback
+  const getImageUrl = (recipe: RecipeType) => {
+    if (imageErrors[recipe.id]) {
+      // Return placeholder for errored images
+      return `https://via.placeholder.com/300x200/A7D1F0/000000?text=${encodeURIComponent(recipe.title)}`;
+    }
+    return recipe.image;
+  };
+
   return (
     <main className={styles.main}>
       <Navbar />
@@ -311,19 +334,22 @@ export default function RecipeFinder() {
                   <div className={styles.recipeGrid}>
                     {filteredRecipes.map((recipe) => (
                       <Link href={`/recipes/${recipe.id}`} key={recipe.id} className={styles.recipeCard}>
-                        <div 
-                          className={styles.recipeImage} 
-                          style={{ backgroundImage: `url(${recipe.image})` }}
-                        ></div>
-                        <div className={styles.recipeContent}>
-                          <div className={styles.recipeMeta}>
-                            <span className={`${styles.difficultyBadge} ${getDifficultyClass(recipe.difficulty)}`}>
-                              {recipe.difficulty.charAt(0).toUpperCase() + recipe.difficulty.slice(1)}
-                            </span>
-                            <span className={styles.prepTime}>{recipe.prepTime} min</span>
-                          </div>
+                        <div className={styles.recipeImageContainer}>
+                          <div 
+                            className={styles.recipeImage} 
+                            style={{ backgroundImage: `url(${getImageUrl(recipe)})` }}
+                            onError={() => handleImageError(recipe.id)}
+                          ></div>
+                          <span className={`${styles.recipeDifficulty} ${getDifficultyClass(recipe.difficulty)}`}>
+                            {recipe.difficulty}
+                          </span>
+                        </div>
+                        <div className={styles.recipeInfo}>
                           <h3 className={styles.recipeTitle}>{recipe.title}</h3>
                           <p className={styles.recipeDescription}>{recipe.description}</p>
+                          <div className={styles.recipeDetails}>
+                            <span className={styles.prepTime}>{recipe.prepTime} min</span>
+                          </div>
                         </div>
                       </Link>
                     ))}

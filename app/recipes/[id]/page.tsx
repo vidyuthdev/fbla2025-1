@@ -176,7 +176,12 @@ const recipes: RecipeType[] = [
 export default function RecipeDetail() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState<RecipeType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('ingredients');
+  const [currentStep, setCurrentStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const [imageError, setImageError] = useState(false);
+  const [suggestionImageErrors, setSuggestionImageErrors] = useState<{[key: string]: boolean}>({});
 
   useEffect(() => {
     // In a real app, this would be an API call
@@ -184,7 +189,7 @@ export default function RecipeDetail() {
     if (foundRecipe) {
       setRecipe(foundRecipe);
     }
-    setIsLoading(false);
+    setLoading(false);
   }, [id]);
 
   // Get difficulty badge class
@@ -201,7 +206,38 @@ export default function RecipeDetail() {
     }
   };
 
-  if (isLoading) {
+  // Handle main image error
+  const handleMainImageError = () => {
+    setImageError(true);
+  };
+
+  // Get main image URL with fallback
+  const getMainImageUrl = () => {
+    if (imageError || !recipe) {
+      // Return placeholder for errored images
+      return `https://via.placeholder.com/1200x400/A7D1F0/000000?text=${encodeURIComponent(recipe?.title || 'Recipe Image')}`;
+    }
+    return recipe.image;
+  };
+
+  // Handle suggestion image error
+  const handleSuggestionImageError = (recipeId: string) => {
+    setSuggestionImageErrors(prev => ({
+      ...prev,
+      [recipeId]: true
+    }));
+  };
+
+  // Get suggestion image URL with fallback
+  const getSuggestionImageUrl = (suggestion: RecipeType) => {
+    if (suggestionImageErrors[suggestion.id]) {
+      // Return placeholder for errored images
+      return `https://via.placeholder.com/300x200/A7D1F0/000000?text=${encodeURIComponent(suggestion.title)}`;
+    }
+    return suggestion.image;
+  };
+
+  if (loading) {
     return (
       <main className={styles.main}>
         <Navbar />
@@ -228,143 +264,142 @@ export default function RecipeDetail() {
   }
 
   return (
-    <main className={styles.main}>
+    <div className={styles.pageContainer}>
       <Navbar />
       
-      <div className={styles.container}>
-        <div className={styles.recipeContainer}>
-          <div className={styles.backNavigation}>
-            <Link href="/recipes" className={styles.backLink}>
-              &larr; Back to Recipes
-            </Link>
-          </div>
-          
-          <div className={styles.recipeHeader} style={{ backgroundImage: `url(${recipe.image})` }}>
-            <div className={styles.headerOverlay}>
-              <div className={styles.headerContent}>
-                <h1 className={styles.recipeTitle}>{recipe.title}</h1>
-                <p className={styles.recipeDescription}>{recipe.description}</p>
+      <main className={styles.main}>
+        <div 
+          className={styles.recipeHeader} 
+          style={{ backgroundImage: `url(${getMainImageUrl()})` }}
+          onError={handleMainImageError}
+        >
+          <div className={styles.headerOverlay}>
+            <div className={styles.headerContent}>
+              <h1 className={styles.recipeTitle}>{recipe.title}</h1>
+              <p className={styles.recipeDescription}>{recipe.description}</p>
+              
+              <div className={styles.recipeDetails}>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>⏱️</span>
+                  <span className={styles.detailLabel}>Prep Time</span>
+                  <span className={styles.detailValue}>{recipe.prepTime} min</span>
+                </div>
                 
-                <div className={styles.recipeDetails}>
+                {recipe.cookTime && (
                   <div className={styles.detailItem}>
-                    <span className={styles.detailIcon}>⏱️</span>
-                    <span className={styles.detailLabel}>Prep Time</span>
-                    <span className={styles.detailValue}>{recipe.prepTime} min</span>
+                    <span className={styles.detailIcon}>🍳</span>
+                    <span className={styles.detailLabel}>Cook Time</span>
+                    <span className={styles.detailValue}>{recipe.cookTime} min</span>
                   </div>
-                  
-                  {recipe.cookTime && (
-                    <div className={styles.detailItem}>
-                      <span className={styles.detailIcon}>🍳</span>
-                      <span className={styles.detailLabel}>Cook Time</span>
-                      <span className={styles.detailValue}>{recipe.cookTime} min</span>
-                    </div>
-                  )}
-                  
-                  {recipe.totalTime && (
-                    <div className={styles.detailItem}>
-                      <span className={styles.detailIcon}>⌛</span>
-                      <span className={styles.detailLabel}>Total Time</span>
-                      <span className={styles.detailValue}>{recipe.totalTime} min</span>
-                    </div>
-                  )}
-                  
+                )}
+                
+                {recipe.totalTime && (
                   <div className={styles.detailItem}>
-                    <span className={styles.detailIcon}>👥</span>
-                    <span className={styles.detailLabel}>Servings</span>
-                    <span className={styles.detailValue}>{recipe.servings}</span>
+                    <span className={styles.detailIcon}>⌛</span>
+                    <span className={styles.detailLabel}>Total Time</span>
+                    <span className={styles.detailValue}>{recipe.totalTime} min</span>
                   </div>
-                  
-                  <div className={styles.detailItem}>
-                    <span className={styles.detailIcon}>📊</span>
-                    <span className={styles.detailLabel}>Difficulty</span>
-                    <span className={`${styles.difficultyBadge} ${getDifficultyClass(recipe.difficulty)}`}>
-                      {recipe.difficulty.charAt(0).toUpperCase() + recipe.difficulty.slice(1)}
-                    </span>
-                  </div>
+                )}
+                
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>👥</span>
+                  <span className={styles.detailLabel}>Servings</span>
+                  <span className={styles.detailValue}>{recipe.servings}</span>
                 </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className={styles.recipeContent}>
-            <div className={styles.recipeSection}>
-              <h2 className={styles.sectionTitle}>Ingredients</h2>
-              <ul className={styles.ingredientsList}>
-                {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index} className={styles.ingredientItem}>
-                    <span className={styles.ingredientCheck}>
-                      <input type="checkbox" id={`ingredient-${index}`} />
-                      <label htmlFor={`ingredient-${index}`}>{ingredient}</label>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div className={styles.recipeSection}>
-              <h2 className={styles.sectionTitle}>Instructions</h2>
-              <ol className={styles.instructionsList}>
-                {recipe.instructions.map((instruction, index) => (
-                  <li key={index} className={styles.instructionItem}>
-                    <div className={styles.instructionNumber}>{index + 1}</div>
-                    <div className={styles.instructionText}>{instruction}</div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            
-            {recipe.tips && recipe.tips.length > 0 && (
-              <div className={styles.recipeSection}>
-                <h2 className={styles.sectionTitle}>Cooking Tips</h2>
-                <div className={styles.tipsList}>
-                  {recipe.tips.map((tip, index) => (
-                    <div key={index} className={styles.tipItem}>
-                      <div className={styles.tipIcon}>💡</div>
-                      <p>{tip}</p>
-                    </div>
-                  ))}
+                
+                <div className={styles.detailItem}>
+                  <span className={styles.detailIcon}>📊</span>
+                  <span className={styles.detailLabel}>Difficulty</span>
+                  <span className={`${styles.difficultyBadge} ${getDifficultyClass(recipe.difficulty)}`}>
+                    {recipe.difficulty.charAt(0).toUpperCase() + recipe.difficulty.slice(1)}
+                  </span>
                 </div>
-              </div>
-            )}
-            
-            <div className={styles.shareSection}>
-              <h3 className={styles.shareTitle}>Enjoy this recipe? Share it!</h3>
-              <div className={styles.shareButtons}>
-                <button className={styles.shareButton}>📱 Share</button>
-                <button className={styles.printButton}>🖨️ Print Recipe</button>
-              </div>
-            </div>
-            
-            <div className={styles.suggestionsSection}>
-              <h2 className={styles.sectionTitle}>You Might Also Like</h2>
-              <div className={styles.suggestionCards}>
-                {recipes
-                  .filter(r => r.id !== recipe.id)
-                  .slice(0, 3)
-                  .map(suggestion => (
-                    <Link 
-                      href={`/recipes/${suggestion.id}`} 
-                      key={suggestion.id} 
-                      className={styles.suggestionCard}
-                    >
-                      <div 
-                        className={styles.suggestionImage} 
-                        style={{ backgroundImage: `url(${suggestion.image})` }}
-                      ></div>
-                      <div className={styles.suggestionContent}>
-                        <h3>{suggestion.title}</h3>
-                        <span className={`${styles.difficultyBadge} ${getDifficultyClass(suggestion.difficulty)}`}>
-                          {suggestion.difficulty.charAt(0).toUpperCase() + suggestion.difficulty.slice(1)}
-                        </span>
-                      </div>
-                    </Link>
-                  ))
-                }
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+        
+        <div className={styles.recipeContent}>
+          <div className={styles.recipeSection}>
+            <h2 className={styles.sectionTitle}>Ingredients</h2>
+            <ul className={styles.ingredientsList}>
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index} className={styles.ingredientItem}>
+                  <span className={styles.ingredientCheck}>
+                    <input type="checkbox" id={`ingredient-${index}`} />
+                    <label htmlFor={`ingredient-${index}`}>{ingredient}</label>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div className={styles.recipeSection}>
+            <h2 className={styles.sectionTitle}>Instructions</h2>
+            <ol className={styles.instructionsList}>
+              {recipe.instructions.map((instruction, index) => (
+                <li key={index} className={styles.instructionItem}>
+                  <div className={styles.instructionNumber}>{index + 1}</div>
+                  <div className={styles.instructionText}>{instruction}</div>
+                </li>
+              ))}
+            </ol>
+          </div>
+          
+          {recipe.tips && recipe.tips.length > 0 && (
+            <div className={styles.recipeSection}>
+              <h2 className={styles.sectionTitle}>Cooking Tips</h2>
+              <div className={styles.tipsList}>
+                {recipe.tips.map((tip, index) => (
+                  <div key={index} className={styles.tipItem}>
+                    <div className={styles.tipIcon}>💡</div>
+                    <p>{tip}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <div className={styles.shareSection}>
+            <h3 className={styles.shareTitle}>Enjoy this recipe? Share it!</h3>
+            <div className={styles.shareButtons}>
+              <button className={styles.shareButton}>📱 Share</button>
+              <button className={styles.printButton}>🖨️ Print Recipe</button>
+            </div>
+          </div>
+          
+          <div className={styles.suggestionsSection}>
+            <h2 className={styles.sectionTitle}>You Might Also Like</h2>
+            <div className={styles.suggestionCards}>
+              {recipes
+                .filter(r => r.id !== recipe.id)
+                .slice(0, 3)
+                .map(suggestion => (
+                  <Link 
+                    href={`/recipes/${suggestion.id}`} 
+                    key={suggestion.id} 
+                    className={styles.suggestionCard}
+                  >
+                    <div className={styles.suggestionImageContainer}>
+                      <div 
+                        className={styles.suggestionImage} 
+                        style={{ backgroundImage: `url(${getSuggestionImageUrl(suggestion)})` }}
+                        onError={() => handleSuggestionImageError(suggestion.id)}
+                      ></div>
+                    </div>
+                    <div className={styles.suggestionContent}>
+                      <h3>{suggestion.title}</h3>
+                      <span className={`${styles.difficultyBadge} ${getDifficultyClass(suggestion.difficulty)}`}>
+                        {suggestion.difficulty.charAt(0).toUpperCase() + suggestion.difficulty.slice(1)}
+                      </span>
+                    </div>
+                  </Link>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 } 
