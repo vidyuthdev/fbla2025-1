@@ -3,37 +3,44 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from '../page.module.css';
 
-// School partner data with colors representing each school
+// School partner data with image paths
 const schoolPartners = [
   {
     name: 'Marvin Ridge High School',
-    colors: { background: '#1E4D8C', text: '#F7941E' } // Blue and orange
+    logo: '/images/schools/marvin-ridge.jpg',
+    altLogo: { background: '#1E4D8C', text: '#F7941E', initials: 'MR' }
   },
   {
     name: 'Weddington High School',
-    colors: { background: '#00804C', text: '#FFFFFF' } // Green and white
+    logo: '/images/schools/weddington.jpg',
+    altLogo: { background: '#00804C', text: '#FFFFFF', initials: 'W' }
   },
   {
     name: 'Cuthbertson High School',
-    colors: { background: '#14284B', text: '#D4B559' } // Navy and gold
+    logo: '/images/schools/cuthbertson.jpg',
+    altLogo: { background: '#14284B', text: '#D4B559', initials: 'C' }
   },
   {
     name: 'Audrey Kell High School',
-    colors: { background: '#4B2C83', text: '#FFFFFF' } // Purple and white
+    logo: '/images/schools/audrey-kell.jpg',
+    altLogo: { background: '#4B2C83', text: '#FFFFFF', initials: 'AK' }
   },
   {
     name: 'Cox Mill High School',
-    colors: { background: '#4B2C83', text: '#CCCCCC' } // Purple and light gray
+    logo: '/images/schools/cox-mill.jpg',
+    altLogo: { background: '#4B2C83', text: '#CCCCCC', initials: 'CM' }
   },
   {
     name: 'Mallard Creek High School',
-    colors: { background: '#14284B', text: '#D4B559' } // Navy and gold
+    logo: '/images/schools/mallard-creek.jpg',
+    altLogo: { background: '#14284B', text: '#D4B559', initials: 'MC' }
   }
 ];
 
 export default function SchoolPartners() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(Array(schoolPartners.length).fill(false));
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   
@@ -100,12 +107,17 @@ export default function SchoolPartners() {
   const handleMouseEnter = () => setIsAutoPlaying(false);
   const handleMouseLeave = () => setIsAutoPlaying(true);
 
-  // Extract first letter of each word to create initials
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('');
+  // Handle image loading
+  const handleImageLoad = (index: number) => {
+    const newImagesLoaded = [...imagesLoaded];
+    newImagesLoaded[index] = true;
+    setImagesLoaded(newImagesLoaded);
+  };
+
+  const handleImageError = (index: number) => {
+    const newImagesLoaded = [...imagesLoaded];
+    newImagesLoaded[index] = false;
+    setImagesLoaded(newImagesLoaded);
   };
 
   return (
@@ -140,22 +152,39 @@ export default function SchoolPartners() {
                 style={{ width: `${100 / totalSlides}%` }}
               >
                 <div className={styles.schoolLogo}>
-                  <div 
+                  {/* Display image if loaded, fallback to colored box with initials */}
+                  <img 
+                    src={school.logo}
+                    alt={`${school.name} logo`}
+                    onLoad={() => handleImageLoad(index)}
+                    onError={() => handleImageError(index)}
                     style={{
                       width: '100%',
                       height: '100%',
-                      backgroundColor: school.colors.background,
-                      color: school.colors.text,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '8px',
-                      fontWeight: 'bold',
-                      fontSize: '1.5rem'
+                      objectFit: 'contain',
+                      display: imagesLoaded[index] ? 'block' : 'none'
                     }}
-                  >
-                    {getInitials(school.name)}
-                  </div>
+                  />
+                  
+                  {/* Fallback if image fails to load */}
+                  {!imagesLoaded[index] && (
+                    <div 
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: school.altLogo.background,
+                        color: school.altLogo.text,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '8px',
+                        fontWeight: 'bold',
+                        fontSize: '1.5rem'
+                      }}
+                    >
+                      {school.altLogo.initials}
+                    </div>
+                  )}
                 </div>
                 <p className={styles.schoolName}>{school.name}</p>
               </div>
