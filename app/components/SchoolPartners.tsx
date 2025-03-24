@@ -1,41 +1,33 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import styles from '../page.module.css';
 
-// Logo imports
-import marvinRidgeLogo from '../../public/images/schools/marvin-ridge.png';
-import weddingtonLogo from '../../public/images/schools/weddington.png';
-import cuthbertsonLogo from '../../public/images/schools/cuthbertson.png';
-import audreyKellLogo from '../../public/images/schools/audrey-kell.png';
-import coxMillLogo from '../../public/images/schools/cox-mill.png';
-import mallardCreekLogo from '../../public/images/schools/mallard-creek.png';
-
+// School partner data with colors representing each school
 const schoolPartners = [
   {
     name: 'Marvin Ridge High School',
-    logo: marvinRidgeLogo
+    colors: { background: '#1E4D8C', text: '#F7941E' } // Blue and orange
   },
   {
     name: 'Weddington High School',
-    logo: weddingtonLogo
+    colors: { background: '#00804C', text: '#FFFFFF' } // Green and white
   },
   {
     name: 'Cuthbertson High School',
-    logo: cuthbertsonLogo
+    colors: { background: '#14284B', text: '#D4B559' } // Navy and gold
   },
   {
     name: 'Audrey Kell High School',
-    logo: audreyKellLogo
+    colors: { background: '#4B2C83', text: '#FFFFFF' } // Purple and white
   },
   {
     name: 'Cox Mill High School',
-    logo: coxMillLogo
+    colors: { background: '#4B2C83', text: '#CCCCCC' } // Purple and light gray
   },
   {
     name: 'Mallard Creek High School',
-    logo: mallardCreekLogo
+    colors: { background: '#14284B', text: '#D4B559' } // Navy and gold
   }
 ];
 
@@ -108,6 +100,14 @@ export default function SchoolPartners() {
   const handleMouseEnter = () => setIsAutoPlaying(false);
   const handleMouseLeave = () => setIsAutoPlaying(true);
 
+  // Extract first letter of each word to create initials
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('');
+  };
+
   return (
     <section className={styles.schoolPartnersSection}>
       <h2 className={styles.partnersTitle}>Our Partner Schools</h2>
@@ -140,14 +140,22 @@ export default function SchoolPartners() {
                 style={{ width: `${100 / totalSlides}%` }}
               >
                 <div className={styles.schoolLogo}>
-                  <Image
-                    src={school.logo}
-                    alt={`${school.name} logo`}
-                    width={120}
-                    height={120}
-                    style={{ objectFit: 'contain' }}
-                    priority={index < visibleSlides}
-                  />
+                  <div 
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: school.colors.background,
+                      color: school.colors.text,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '8px',
+                      fontWeight: 'bold',
+                      fontSize: '1.5rem'
+                    }}
+                  >
+                    {getInitials(school.name)}
+                  </div>
                 </div>
                 <p className={styles.schoolName}>{school.name}</p>
               </div>
