@@ -62,27 +62,39 @@ const schoolPartners = [
 ];
 
 export default function SchoolPartners() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeSlides, setActiveSlides] = useState<number[]>([]);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const transitonTimerRef = useRef<NodeJS.Timeout | null>(null);
   
   // Determine visible slides based on screen width
-  const [visibleSlides, setVisibleSlides] = useState(4);
+  const [visibleSlideCount, setVisibleSlideCount] = useState(4);
   const totalSlides = schoolPartners.length;
   
   // Update visible slides based on screen size
   useEffect(() => {
     const handleResize = () => {
+      let newVisibleSlideCount = 4;
+      
       if (window.innerWidth < 768) {
-        setVisibleSlides(1);
+        newVisibleSlideCount = 1;
       } else if (window.innerWidth < 1024) {
-        setVisibleSlides(2);
+        newVisibleSlideCount = 2;
       } else if (window.innerWidth < 1280) {
-        setVisibleSlides(3);
+        newVisibleSlideCount = 3;
       } else {
-        setVisibleSlides(4);
+        newVisibleSlideCount = 4;
       }
+      
+      setVisibleSlideCount(newVisibleSlideCount);
+      
+      // Initialize active slides
+      const initialActiveSlides: number[] = [];
+      for (let i = 0; i < newVisibleSlideCount; i++) {
+        initialActiveSlides.push(i % totalSlides);
+      }
+      setActiveSlides(initialActiveSlides);
     };
     
     // Initial setup
@@ -95,36 +107,78 @@ export default function SchoolPartners() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [totalSlides]);
   
-  // Handle next slide
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === totalSlides - visibleSlides ? 0 : prevIndex + 1
-    );
+  // Transition to the next set of slides
+  const updateSlides = () => {
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
+    
+    // Start the transition effect
+    transitonTimerRef.current = setTimeout(() => {
+      // Calculate new active slides (shift everything by 1)
+      const newActiveSlides = activeSlides.map(
+        (slideIndex) => (slideIndex + 1) % totalSlides
+      );
+      
+      setActiveSlides(newActiveSlides);
+      setIsTransitioning(false);
+    }, 500); // Time should match the transition duration in CSS
   };
   
-  // Handle previous slide
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? totalSlides - visibleSlides : prevIndex - 1
-    );
+  // Handle manual navigation
+  const goToNextSlides = () => {
+    if (isAutoPlaying) {
+      // Reset the autoplay timer
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+      autoPlayRef.current = setInterval(updateSlides, 3000);
+    }
+    updateSlides();
+  };
+  
+  const goToPrevSlides = () => {
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
+    
+    // Start the transition effect
+    transitonTimerRef.current = setTimeout(() => {
+      // Calculate new active slides (shift everything by -1)
+      const newActiveSlides = activeSlides.map(
+        (slideIndex) => (slideIndex - 1 + totalSlides) % totalSlides
+      );
+      
+      setActiveSlides(newActiveSlides);
+      setIsTransitioning(false);
+    }, 500); // Time should match the transition duration in CSS
+    
+    if (isAutoPlaying) {
+      // Reset the autoplay timer
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+      autoPlayRef.current = setInterval(updateSlides, 3000);
+    }
   };
 
   // Set up autoplay
   useEffect(() => {
     if (isAutoPlaying) {
-      autoPlayRef.current = setInterval(() => {
-        nextSlide();
-      }, 3000); // Change slide every 3 seconds
+      autoPlayRef.current = setInterval(updateSlides, 3000); // Change slide every 3 seconds
     }
     
     return () => {
       if (autoPlayRef.current) {
         clearInterval(autoPlayRef.current);
       }
+      if (transitonTimerRef.current) {
+        clearTimeout(transitonTimerRef.current);
+      }
     };
-  }, [isAutoPlaying, currentIndex]);
+  }, [isAutoPlaying, activeSlides]);
 
   // Pause autoplay on hover
   const handleMouseEnter = () => setIsAutoPlaying(false);
@@ -140,77 +194,85 @@ export default function SchoolPartners() {
       >
         <button 
           className={`${styles.carouselButton} ${styles.prevButton}`}
-          onClick={prevSlide}
+          onClick={goToPrevSlides}
           aria-label="Previous slide"
+          disabled={isTransitioning}
         >
           &#8249;
         </button>
         
         <div className={styles.carouselContentWrapper}>
-          <div 
-            ref={contentRef}
-            className={styles.carouselContent}
-            style={{ 
-              transform: `translateX(-${currentIndex * (100 / visibleSlides)}%)`,
-              width: `${(totalSlides / visibleSlides) * 100}%`
-            }}
-          >
-            {schoolPartners.map((school, index) => (
-              <div 
-                key={index} 
-                className={styles.logoSlide}
-                style={{ width: `${100 / totalSlides}%` }}
-              >
-                <div className={styles.schoolLogo}>
-                  <div 
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      backgroundColor: school.colors.primary,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '10px',
-                      position: 'relative',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    {/* Accent color element */}
-                    <div
+          <div className={`${styles.carouselContent} ${isTransitioning ? styles.transitioning : ''}`}>
+            {/* Display only active slides in the current view */}
+            {Array.from({ length: visibleSlideCount }).map((_, slotIndex) => {
+              const slideIndex = activeSlides[slotIndex];
+              if (slideIndex === undefined) return null;
+              
+              const school = schoolPartners[slideIndex];
+              if (!school) return null;
+              
+              return (
+                <div 
+                  key={`${slotIndex}-${slideIndex}`} 
+                  className={`${styles.logoSlide} ${isTransitioning ? styles.fading : ''}`}
+                  style={{ 
+                    width: `calc(100% / ${visibleSlideCount})`,
+                    opacity: isTransitioning ? 0 : 1,
+                    transition: 'opacity 0.5s ease-in-out'
+                  }}
+                >
+                  <div className={styles.schoolLogo}>
+                    <div 
                       style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        width: '40%',
-                        height: '40%',
-                        backgroundColor: school.colors.secondary,
-                        clipPath: 'polygon(100% 0, 0 0, 100% 100%)'
-                      }}
-                    />
-                    
-                    {/* School abbreviation */}
-                    <span
-                      style={{
-                        fontSize: '1.2rem',
-                        fontWeight: 'bold',
-                        color: school.colors.text,
-                        letterSpacing: '1px'
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: school.colors.primary,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '10px',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}
                     >
-                      {school.abbreviation}
-                    </span>
+                      {/* Accent color element */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          right: 0,
+                          width: '40%',
+                          height: '40%',
+                          backgroundColor: school.colors.secondary,
+                          clipPath: 'polygon(100% 0, 0 0, 100% 100%)'
+                        }}
+                      />
+                      
+                      {/* School abbreviation */}
+                      <span
+                        style={{
+                          fontSize: '1.2rem',
+                          fontWeight: 'bold',
+                          color: school.colors.text,
+                          letterSpacing: '1px'
+                        }}
+                      >
+                        {school.abbreviation}
+                      </span>
+                    </div>
                   </div>
+                  <p className={styles.schoolName}>{school.name}</p>
                 </div>
-                <p className={styles.schoolName}>{school.name}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
         
         <button 
           className={`${styles.carouselButton} ${styles.nextButton}`}
-          onClick={nextSlide}
+          onClick={goToNextSlides}
           aria-label="Next slide"
+          disabled={isTransitioning}
         >
           &#8250;
         </button>
