@@ -158,14 +158,6 @@ export default function SchoolPartners() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <button 
-          className={`${styles.carouselButton} ${styles.prevButton}`}
-          onClick={() => speedUp('left')}
-          aria-label="Previous slide"
-        >
-          &#8249;
-        </button>
-        
         <div className={styles.carouselContentWrapper}>
           <div 
             ref={trackRef}
@@ -229,14 +221,6 @@ export default function SchoolPartners() {
             ))}
           </div>
         </div>
-        
-        <button 
-          className={`${styles.carouselButton} ${styles.nextButton}`}
-          onClick={() => speedUp('right')}
-          aria-label="Next slide"
-        >
-          &#8250;
-        </button>
       </div>
     </section>
   );
