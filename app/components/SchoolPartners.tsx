@@ -3,44 +3,73 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from '../page.module.css';
 
-// School partner data with image paths
+// School partner data with colors and details
 const schoolPartners = [
   {
     name: 'Marvin Ridge High School',
-    logo: '/images/schools/marvin-ridge.jpg',
-    altLogo: { background: '#1E4D8C', text: '#F7941E', initials: 'MR' }
+    colors: { 
+      primary: '#1E4D8C', // Blue
+      secondary: '#F7941E', // Orange
+      text: '#FFFFFF'
+    },
+    mascot: 'Mavericks',
+    initials: 'MR'
   },
   {
     name: 'Weddington High School',
-    logo: '/images/schools/weddington.jpg',
-    altLogo: { background: '#00804C', text: '#FFFFFF', initials: 'W' }
+    colors: { 
+      primary: '#00804C', // Green
+      secondary: '#FFFFFF', // White
+      text: '#FFFFFF'
+    },
+    mascot: 'Warriors',
+    initials: 'W'
   },
   {
     name: 'Cuthbertson High School',
-    logo: '/images/schools/cuthbertson.jpg',
-    altLogo: { background: '#14284B', text: '#D4B559', initials: 'C' }
+    colors: { 
+      primary: '#14284B', // Navy
+      secondary: '#D4B559', // Gold
+      text: '#FFFFFF'
+    },
+    mascot: 'Cavaliers',
+    initials: 'C'
   },
   {
     name: 'Audrey Kell High School',
-    logo: '/images/schools/audrey-kell.jpg',
-    altLogo: { background: '#4B2C83', text: '#FFFFFF', initials: 'AK' }
+    colors: { 
+      primary: '#4B2C83', // Purple
+      secondary: '#FFFFFF', // White
+      text: '#FFFFFF'
+    },
+    mascot: 'Knights',
+    initials: 'AK'
   },
   {
     name: 'Cox Mill High School',
-    logo: '/images/schools/cox-mill.jpg',
-    altLogo: { background: '#4B2C83', text: '#CCCCCC', initials: 'CM' }
+    colors: { 
+      primary: '#4B2C83', // Purple
+      secondary: '#CCCCCC', // Light gray
+      text: '#FFFFFF'
+    },
+    mascot: 'Chargers',
+    initials: 'CM'
   },
   {
     name: 'Mallard Creek High School',
-    logo: '/images/schools/mallard-creek.jpg',
-    altLogo: { background: '#14284B', text: '#D4B559', initials: 'MC' }
+    colors: { 
+      primary: '#14284B', // Navy
+      secondary: '#D4B559', // Gold
+      text: '#FFFFFF'
+    },
+    mascot: 'Mavericks',
+    initials: 'MC'
   }
 ];
 
 export default function SchoolPartners() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(Array(schoolPartners.length).fill(false));
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   
@@ -107,19 +136,6 @@ export default function SchoolPartners() {
   const handleMouseEnter = () => setIsAutoPlaying(false);
   const handleMouseLeave = () => setIsAutoPlaying(true);
 
-  // Handle image loading
-  const handleImageLoad = (index: number) => {
-    const newImagesLoaded = [...imagesLoaded];
-    newImagesLoaded[index] = true;
-    setImagesLoaded(newImagesLoaded);
-  };
-
-  const handleImageError = (index: number) => {
-    const newImagesLoaded = [...imagesLoaded];
-    newImagesLoaded[index] = false;
-    setImagesLoaded(newImagesLoaded);
-  };
-
   return (
     <section className={styles.schoolPartnersSection}>
       <h2 className={styles.partnersTitle}>Our Partner Schools</h2>
@@ -152,41 +168,50 @@ export default function SchoolPartners() {
                 style={{ width: `${100 / totalSlides}%` }}
               >
                 <div className={styles.schoolLogo}>
-                  {/* Display image if loaded, fallback to colored box with initials */}
-                  <img 
-                    src={school.logo}
-                    alt={`${school.name} logo`}
-                    onLoad={() => handleImageLoad(index)}
-                    onError={() => handleImageError(index)}
+                  <div 
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'contain',
-                      display: imagesLoaded[index] ? 'block' : 'none'
+                      backgroundColor: school.colors.primary,
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      boxShadow: `0 6px 16px rgba(0,0,0,0.15), 0 0 0 2px ${school.colors.secondary}`
                     }}
-                  />
-                  
-                  {/* Fallback if image fails to load */}
-                  {!imagesLoaded[index] && (
-                    <div 
+                  >
+                    {/* Circle with school colors */}
+                    <div
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: school.altLogo.background,
-                        color: school.altLogo.text,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '8px',
+                        position: 'absolute',
+                        top: '-30%',
+                        right: '-30%',
+                        width: '60%',
+                        height: '60%',
+                        borderRadius: '50%',
+                        backgroundColor: school.colors.secondary,
+                        opacity: 0.7
+                      }}
+                    />
+                    
+                    {/* School initials */}
+                    <span
+                      style={{
+                        fontSize: '2rem',
                         fontWeight: 'bold',
-                        fontSize: '1.5rem'
+                        color: school.colors.text,
+                        zIndex: 2,
+                        textShadow: '1px 1px 3px rgba(0,0,0,0.3)'
                       }}
                     >
-                      {school.altLogo.initials}
-                    </div>
-                  )}
+                      {school.initials}
+                    </span>
+                  </div>
                 </div>
                 <p className={styles.schoolName}>{school.name}</p>
+                <p className={styles.schoolMascot}>{school.mascot}</p>
               </div>
             ))}
           </div>
