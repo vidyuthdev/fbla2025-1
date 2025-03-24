@@ -3,31 +3,61 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from '../page.module.css';
 
-// School partner data with direct image paths
+// School partner data with school colors and abbreviations
 const schoolPartners = [
   {
     name: 'Marvin Ridge High School',
-    logo: '/images/schools/marvin-ridge.png'
+    colors: { 
+      primary: '#1E4D8C', // Blue
+      secondary: '#F7941E', // Orange
+      text: '#FFFFFF'
+    },
+    abbreviation: 'MRHS'
   },
   {
     name: 'Weddington High School',
-    logo: '/images/schools/weddington.png'
+    colors: { 
+      primary: '#00804C', // Green
+      secondary: '#FFFFFF', // White
+      text: '#FFFFFF'
+    },
+    abbreviation: 'WHS'
   },
   {
     name: 'Cuthbertson High School',
-    logo: '/images/schools/cuthbertson.png'
+    colors: { 
+      primary: '#14284B', // Navy
+      secondary: '#D4B559', // Gold
+      text: '#FFFFFF'
+    },
+    abbreviation: 'CHS'
   },
   {
     name: 'Audrey Kell High School',
-    logo: '/images/schools/audrey-kell.png'
+    colors: { 
+      primary: '#4B2C83', // Purple
+      secondary: '#FFFFFF', // White
+      text: '#FFFFFF'
+    },
+    abbreviation: 'AKHS'
   },
   {
     name: 'Cox Mill High School',
-    logo: '/images/schools/cox-mill.png'
+    colors: { 
+      primary: '#4B2C83', // Purple
+      secondary: '#CCCCCC', // Light gray
+      text: '#FFFFFF'
+    },
+    abbreviation: 'CMHS'
   },
   {
     name: 'Mallard Creek High School',
-    logo: '/images/schools/mallard-creek.png'
+    colors: { 
+      primary: '#14284B', // Navy
+      secondary: '#D4B559', // Gold
+      text: '#FFFFFF'
+    },
+    abbreviation: 'MCHS'
   }
 ];
 
@@ -132,15 +162,44 @@ export default function SchoolPartners() {
                 style={{ width: `${100 / totalSlides}%` }}
               >
                 <div className={styles.schoolLogo}>
-                  <img
-                    src={school.logo}
-                    alt={`${school.name} logo`}
+                  <div 
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'contain'
+                      backgroundColor: school.colors.primary,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '10px',
+                      position: 'relative',
+                      overflow: 'hidden'
                     }}
-                  />
+                  >
+                    {/* Accent color element */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        width: '40%',
+                        height: '40%',
+                        backgroundColor: school.colors.secondary,
+                        clipPath: 'polygon(100% 0, 0 0, 100% 100%)'
+                      }}
+                    />
+                    
+                    {/* School abbreviation */}
+                    <span
+                      style={{
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold',
+                        color: school.colors.text,
+                        letterSpacing: '1px'
+                      }}
+                    >
+                      {school.abbreviation}
+                    </span>
+                  </div>
                 </div>
                 <p className={styles.schoolName}>{school.name}</p>
               </div>
