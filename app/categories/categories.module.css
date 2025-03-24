@@ -1,0 +1,255 @@
+.pageContainer {
+  min-height: 100vh;
+  background: var(--background-light);
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 20px 60px;
+}
+
+/* Category Header Section */
+.categoryHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.categoryHeader h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.categoryHeader p {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Category Navigation */
+.categoryNav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.categoryButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  background-color: white;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 110px;
+}
+
+.categoryIcon {
+  font-size: 1.8rem;
+}
+
+.categoryButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.activeCategory {
+  border-color: var(--primary-blue);
+  background-color: rgba(167, 209, 240, 0.1);
+  font-weight: 600;
+}
+
+/* Recipe Grid */
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.recipeCard {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipeCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recipeImageContainer {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.recipeImage {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.recipeCard:hover .recipeImage {
+  transform: scale(1.05);
+}
+
+.recipeDifficulty {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.beginner {
+  background-color: #e2f8e9;
+  color: #1e8e3e;
+}
+
+.intermediate {
+  background-color: #fff5e6;
+  color: #f9ab00;
+}
+
+.advanced {
+  background-color: #fde7e7;
+  color: #d93025;
+}
+
+.recipeInfo {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipeTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.recipeDescription {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.recipeDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.prepTime {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.prepTime::before {
+  content: "⏱";
+  margin-right: 5px;
+}
+
+.mealTypes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.mealType {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 15px;
+  background-color: rgba(167, 209, 240, 0.2);
+  color: var(--primary-blue);
+}
+
+.noRecipes {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.noRecipes p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .main {
+    padding-top: 80px;
+  }
+  
+  .categoryHeader h1 {
+    font-size: 2.2rem;
+  }
+  
+  .categoryHeader p {
+    font-size: 1.1rem;
+  }
+  
+  .categoryButton {
+    min-width: 90px;
+    padding: 12px 15px;
+  }
+  
+  .categoryIcon {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .recipeGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .categoryNav {
+    justify-content: space-between;
+    gap: 8px;
+  }
+  
+  .categoryButton {
+    min-width: calc(33% - 10px);
+    padding: 10px;
+  }
+  
+  .categoryHeader h1 {
+    font-size: 1.8rem;
+  }
+  
+  .main {
+    padding: 70px 15px 40px;
+  }
+} 
