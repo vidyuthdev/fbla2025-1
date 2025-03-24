@@ -1,0 +1,309 @@
+.main {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.container {
+  padding-top: 80px;
+  background: var(--background-gradient);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.header {
+  text-align: center;
+  padding: 40px 20px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  bottom: 5px;
+  left: 0;
+  background-color: var(--secondary-orange);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  max-width: 700px;
+  margin: 0 auto;
+  color: var(--text-secondary);
+}
+
+/* Tips Overview Section */
+.tipsOverview {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
+.tipsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.tipCard {
+  background-color: white;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tipCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tipIcon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.tipCard h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--primary-green);
+}
+
+.tipCard p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Tip Detail Sections */
+.tipDetailSection {
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.tipDetail {
+  background-color: white;
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  scroll-margin-top: 100px; /* For smooth scrolling to anchors */
+}
+
+.tipDetailHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tipDetailIcon {
+  font-size: 2.5rem;
+  margin-right: 15px;
+}
+
+.tipDetailTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-green);
+}
+
+.tipDetailDescription {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: var(--text-secondary);
+  padding-left: 55px;
+}
+
+.tipContentList {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.tipContentCard {
+  display: flex;
+  gap: 25px;
+  border-radius: 12px;
+  background-color: var(--background-pale-green);
+  overflow: hidden;
+}
+
+.tipContentImage {
+  width: 200px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.tipContentText {
+  padding: 20px 20px 20px 0;
+  flex: 1;
+}
+
+.tipContentTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.tipContentText p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+/* More Resources Section */
+.moreResourcesSection {
+  max-width: 1000px;
+  margin: 0 auto 60px;
+  padding: 40px 20px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  color: var(--primary-green);
+}
+
+.resourceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.resourceCard {
+  background-color: var(--background-pale-green);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.resourceCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+}
+
+.resourceIcon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.resourceCard h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.resourceCard p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.resourceLink {
+  display: inline-block;
+  padding: 8px 20px;
+  background-color: var(--primary-green);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.resourceLink:hover {
+  background-color: var(--primary-orange);
+  transform: translateY(-2px);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .tipContentCard {
+    flex-direction: column;
+  }
+  
+  .tipContentImage {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .tipContentText {
+    padding: 20px;
+  }
+  
+  .tipDetailDescription {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.3rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .tipDetail {
+    padding: 30px 20px;
+  }
+  
+  .tipDetailTitle {
+    font-size: 1.8rem;
+  }
+  
+  .tipDetailIcon {
+    font-size: 2rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 2rem;
+  }
+  
+  .tipDetailHeader {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .tipDetailIcon {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .resourceCard {
+    padding: 20px;
+  }
+} 

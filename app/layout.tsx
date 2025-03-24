@@ -6,8 +6,8 @@ import NavbarWrapper from './components/NavbarWrapper';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Mav360',
-  description: 'Your Premier Event Venue',
+  title: 'CookCraft - Simple Recipes for Young Cooks',
+  description: 'Explore simple, fun recipes designed for middle and high school students. Learn to cook with interactive recipes and find dishes that match your preferences.',
 };
 
 export default function RootLayout({

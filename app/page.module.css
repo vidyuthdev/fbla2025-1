@@ -1,0 +1,565 @@
+.main {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 120px 20px 60px;
+  background: var(--background-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.heroContainer {
+  max-width: 600px;
+  z-index: 1;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.highlight {
+  color: var(--primary-green);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background-color: var(--secondary-orange);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 550px;
+}
+
+.heroCta {
+  display: flex;
+  gap: 15px;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.primary {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+.primary:hover {
+  background-color: var(--primary-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.secondary {
+  background-color: white;
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+}
+
+.secondary:hover {
+  background-color: var(--secondary-green);
+  transform: translateY(-2px);
+  color: var(--primary-green);
+  border-color: var(--primary-green);
+}
+
+.heroImageContainer {
+  position: relative;
+  width: 500px;
+  height: 500px;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/hero-cooking.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 24px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Section Styling */
+.sectionContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.sectionTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.sectionSubtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--text-secondary);
+}
+
+/* Featured Categories Section */
+.featuredCategories {
+  padding: 60px 0;
+  background: var(--background-cream);
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.categoryCard {
+  background-color: white;
+  border-radius: 16px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.categoryCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.categoryIcon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.categoryCard h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.categoryCard p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Recipe Finder Section */
+.recipeFinderSection {
+  padding: 80px 0;
+}
+
+.recipeFinderSection .sectionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.finderContent {
+  flex: 1;
+  max-width: 600px;
+}
+
+.finderFeatures {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.finderFeature {
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  flex: 1;
+}
+
+.featureIcon {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.finderFeature h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.finderFeature p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.finderImageContainer {
+  position: relative;
+  width: 400px;
+  height: 500px;
+}
+
+.finderImage {
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/recipe-finder.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 24px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Featured Recipes Section */
+.featuredRecipes {
+  padding: 60px 0;
+  background-color: var(--background-pale-green);
+}
+
+.recipes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.recipeCard {
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.recipeCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recipeImage {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.recipeContent {
+  padding: 20px;
+}
+
+.difficultyBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.beginner {
+  background-color: #A8E6CF;
+  color: #2D6A4F;
+}
+
+.intermediate {
+  background-color: #FFD3B6;
+  color: #D35400;
+}
+
+.advanced {
+  background-color: #FFAAA5;
+  color: #C0392B;
+}
+
+.prepTime {
+  display: inline-block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.recipeContent h3 {
+  margin: 12px 0 8px;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.recipeContent p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.viewAllContainer {
+  text-align: center;
+}
+
+.viewAllButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: transparent;
+  border: 2px solid var(--primary-green);
+  color: var(--primary-green);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.viewAllButton:hover {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+/* Cooking Tips Section */
+.cookingTips {
+  padding: 60px 0;
+}
+
+.tipsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.tipCard {
+  background-color: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.tipCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tipIcon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.tipCard h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.tipCard p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.tipLink {
+  display: inline-block;
+  color: var(--primary-green);
+  font-weight: 600;
+  position: relative;
+}
+
+.tipLink::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--primary-green);
+  transition: width 0.3s ease;
+}
+
+.tipLink:hover::after {
+  width: 100%;
+}
+
+.tipLink:hover {
+  color: var(--primary-orange);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--background-cream);
+  padding: 60px 0 20px;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footerLogo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.logoAccent {
+  margin-left: 5px;
+}
+
+.footerTagline {
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+.footerLinkGroup h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.footerLinkGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footerLinkGroup a {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.footerLinkGroup a:hover {
+  color: var(--primary-green);
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 20px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .hero {
+    flex-direction: column;
+    padding: 100px 20px 40px;
+  }
+
+  .heroContainer {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .heroCta {
+    justify-content: center;
+  }
+
+  .heroImageContainer {
+    width: 100%;
+    height: 400px;
+    max-width: 500px;
+  }
+
+  .recipeFinderSection .sectionContainer {
+    flex-direction: column-reverse;
+  }
+
+  .finderContent {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .finderImageContainer {
+    width: 100%;
+    height: 400px;
+    max-width: 500px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .finderFeatures {
+    flex-direction: column;
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .heroCta {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .ctaButton {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .heroImageContainer, .finderImageContainer {
+    height: 300px;
+  }
+} 

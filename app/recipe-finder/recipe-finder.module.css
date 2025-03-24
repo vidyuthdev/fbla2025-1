@@ -1,0 +1,293 @@
+.main {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.container {
+  padding-top: 80px;
+  background: var(--background-gradient);
+  min-height: 100vh;
+}
+
+.finderSection {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.contentWrapper {
+  max-width: 100%;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Question Card Styling */
+.questionCard {
+  background-color: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.progressContainer {
+  height: 8px;
+  background-color: var(--secondary-green);
+  border-radius: 4px;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: var(--primary-green);
+  transition: width 0.4s ease;
+}
+
+.questionText {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.optionButton {
+  padding: 15px 20px;
+  background-color: white;
+  border: 2px solid var(--secondary-green);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.optionButton:hover {
+  background-color: var(--secondary-green);
+  border-color: var(--primary-green);
+  transform: translateY(-2px);
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.backButton:hover {
+  color: var(--primary-green);
+}
+
+/* Results Styling */
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.resetButton {
+  background-color: transparent;
+  border: 2px solid var(--primary-green);
+  color: var(--primary-green);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.resetButton:hover {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.recipeCard {
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.recipeCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.recipeImage {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.recipeContent {
+  padding: 20px;
+}
+
+.recipeMeta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.difficultyBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.beginner {
+  background-color: #A8E6CF;
+  color: #2D6A4F;
+}
+
+.intermediate {
+  background-color: #FFD3B6;
+  color: #D35400;
+}
+
+.advanced {
+  background-color: #FFAAA5;
+  color: #C0392B;
+}
+
+.prepTime {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.recipeTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.recipeDescription {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* No Results Styling */
+.noResults {
+  text-align: center;
+  background-color: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.noResultsIcon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.noResults h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.noResults p {
+  color: var(--text-secondary);
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: var(--primary-orange);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .questionText {
+    font-size: 1.3rem;
+  }
+  
+  .optionButton {
+    font-size: 1rem;
+  }
+  
+  .resultsHeader {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .questionCard {
+    padding: 20px;
+  }
+  
+  .recipeGrid {
+    grid-template-columns: 1fr;
+  }
+} 
