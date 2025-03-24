@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from './components/Navbar';
+import SchoolPartners from './components/SchoolPartners';
 import styles from './page.module.css';
 import childCookingImage from '../public/images/child-cooking.jpg';
 
@@ -32,6 +33,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* School Partners Carousel */}
+      <SchoolPartners />
 
       <section className={styles.featuredCategories}>
         <div className={styles.sectionContainer}>

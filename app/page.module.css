@@ -122,6 +122,173 @@
   transform: scale(1.03);
 }
 
+/* School Partners Carousel */
+.schoolPartnersSection {
+  padding: 40px 0;
+  background-color: var(--background-pale-green);
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.carouselContainer {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 40px;
+}
+
+.carouselWrapper {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.carouselContentWrapper {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.carouselContent {
+  display: flex;
+  transition: all 500ms ease;
+  -ms-overflow-style: none;  /* Hide scrollbar in IE and Edge */
+  scrollbar-width: none;  /* Hide scrollbar in Firefox */
+}
+
+.carouselContent::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome/Safari/Webkit */
+}
+
+.logoSlide {
+  min-width: 200px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.schoolLogo {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.schoolLogo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.schoolName {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-align: center;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid var(--primary-green);
+  color: var(--primary-green);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.carouselButton:hover {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+.prevButton {
+  left: 0;
+}
+
+.nextButton {
+  right: 0;
+}
+
+.partnersTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--primary-green);
+  position: relative;
+  display: inline-block;
+}
+
+.partnersTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--primary-orange);
+  border-radius: 2px;
+}
+
+/* Media queries for the carousel */
+@media (max-width: 768px) {
+  .carouselContainer {
+    padding: 0 30px;
+  }
+  
+  .schoolLogo {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .partnersTitle {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .carouselContainer {
+    padding: 0 25px;
+  }
+  
+  .schoolLogo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .carouselButton {
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+  }
+}
+
 /* Section Styling */
 .sectionContainer {
   max-width: 1200px;
