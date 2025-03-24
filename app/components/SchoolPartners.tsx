@@ -62,127 +62,42 @@ const schoolPartners = [
 ];
 
 export default function SchoolPartners() {
-  const [activeSlides, setActiveSlides] = useState<number[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
-  const transitonTimerRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Determine visible slides based on screen width
-  const [visibleSlideCount, setVisibleSlideCount] = useState(4);
-  const totalSlides = schoolPartners.length;
-  
-  // Update visible slides based on screen size
-  useEffect(() => {
-    const handleResize = () => {
-      let newVisibleSlideCount = 4;
-      
-      if (window.innerWidth < 768) {
-        newVisibleSlideCount = 1;
-      } else if (window.innerWidth < 1024) {
-        newVisibleSlideCount = 2;
-      } else if (window.innerWidth < 1280) {
-        newVisibleSlideCount = 3;
-      } else {
-        newVisibleSlideCount = 4;
-      }
-      
-      setVisibleSlideCount(newVisibleSlideCount);
-      
-      // Initialize active slides
-      const initialActiveSlides: number[] = [];
-      for (let i = 0; i < newVisibleSlideCount; i++) {
-        initialActiveSlides.push(i % totalSlides);
-      }
-      setActiveSlides(initialActiveSlides);
-    };
-    
-    // Initial setup
-    handleResize();
-    
-    // Listener for window resize
-    window.addEventListener('resize', handleResize);
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [totalSlides]);
-  
-  // Transition to the next set of slides
-  const updateSlides = () => {
-    if (isTransitioning) return;
-    
-    setIsTransitioning(true);
-    
-    // Start the transition effect
-    transitonTimerRef.current = setTimeout(() => {
-      // Calculate new active slides (shift everything by 1)
-      const newActiveSlides = activeSlides.map(
-        (slideIndex) => (slideIndex + 1) % totalSlides
-      );
-      
-      setActiveSlides(newActiveSlides);
-      setIsTransitioning(false);
-    }, 500); // Time should match the transition duration in CSS
+  // Pause autoplay on hover
+  const handleMouseEnter = () => setIsAutoPlaying(false);
+  const handleMouseLeave = () => setIsAutoPlaying(true);
+
+  // Move to previous/next slide
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % schoolPartners.length);
   };
-  
-  // Handle manual navigation
-  const goToNextSlides = () => {
-    if (isAutoPlaying) {
-      // Reset the autoplay timer
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-      autoPlayRef.current = setInterval(updateSlides, 3000);
-    }
-    updateSlides();
-  };
-  
-  const goToPrevSlides = () => {
-    if (isTransitioning) return;
-    
-    setIsTransitioning(true);
-    
-    // Start the transition effect
-    transitonTimerRef.current = setTimeout(() => {
-      // Calculate new active slides (shift everything by -1)
-      const newActiveSlides = activeSlides.map(
-        (slideIndex) => (slideIndex - 1 + totalSlides) % totalSlides
-      );
-      
-      setActiveSlides(newActiveSlides);
-      setIsTransitioning(false);
-    }, 500); // Time should match the transition duration in CSS
-    
-    if (isAutoPlaying) {
-      // Reset the autoplay timer
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-      autoPlayRef.current = setInterval(updateSlides, 3000);
-    }
+
+  const goToPrev = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? schoolPartners.length - 1 : prevIndex - 1
+    );
   };
 
   // Set up autoplay
   useEffect(() => {
     if (isAutoPlaying) {
-      autoPlayRef.current = setInterval(updateSlides, 3000); // Change slide every 3 seconds
+      autoPlayRef.current = setInterval(() => {
+        goToNext();
+      }, 3000);
     }
     
     return () => {
       if (autoPlayRef.current) {
         clearInterval(autoPlayRef.current);
       }
-      if (transitonTimerRef.current) {
-        clearTimeout(transitonTimerRef.current);
-      }
     };
-  }, [isAutoPlaying, activeSlides]);
+  }, [isAutoPlaying, currentIndex]);
 
-  // Pause autoplay on hover
-  const handleMouseEnter = () => setIsAutoPlaying(false);
-  const handleMouseLeave = () => setIsAutoPlaying(true);
+  // Duplicate the schoolPartners array to ensure smooth infinite scrolling
+  const displayedPartners = [...schoolPartners, ...schoolPartners];
 
   return (
     <section className={styles.schoolPartnersSection}>
@@ -194,85 +109,78 @@ export default function SchoolPartners() {
       >
         <button 
           className={`${styles.carouselButton} ${styles.prevButton}`}
-          onClick={goToPrevSlides}
+          onClick={goToPrev}
           aria-label="Previous slide"
-          disabled={isTransitioning}
         >
           &#8249;
         </button>
         
         <div className={styles.carouselContentWrapper}>
-          <div className={`${styles.carouselContent} ${isTransitioning ? styles.transitioning : ''}`}>
-            {/* Display only active slides in the current view */}
-            {Array.from({ length: visibleSlideCount }).map((_, slotIndex) => {
-              const slideIndex = activeSlides[slotIndex];
-              if (slideIndex === undefined) return null;
-              
-              const school = schoolPartners[slideIndex];
-              if (!school) return null;
-              
-              return (
-                <div 
-                  key={`${slotIndex}-${slideIndex}`} 
-                  className={`${styles.logoSlide} ${isTransitioning ? styles.fading : ''}`}
-                  style={{ 
-                    width: `calc(100% / ${visibleSlideCount})`,
-                    opacity: isTransitioning ? 0 : 1,
-                    transition: 'opacity 0.5s ease-in-out'
-                  }}
-                >
-                  <div className={styles.schoolLogo}>
-                    <div 
+          <div 
+            className={styles.carouselTrack}
+            style={{
+              transform: `translateX(calc(-${currentIndex * 100}% / 6))`,
+              transition: 'transform 0.5s ease',
+              display: 'flex',
+              width: `${displayedPartners.length * 100 / 6}%` // Each item takes up 1/6 of the container
+            }}
+          >
+            {displayedPartners.map((school, index) => (
+              <div 
+                key={index} 
+                className={styles.logoSlide}
+                style={{ width: `${100 / displayedPartners.length}%` }}
+              >
+                <div className={styles.schoolLogo}>
+                  <div 
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: school.colors.primary,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '10px',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    {/* Accent color element */}
+                    <div
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: school.colors.primary,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '10px',
-                        position: 'relative',
-                        overflow: 'hidden'
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        width: '40%',
+                        height: '40%',
+                        backgroundColor: school.colors.secondary,
+                        clipPath: 'polygon(100% 0, 0 0, 100% 100%)'
+                      }}
+                    />
+                    
+                    {/* School abbreviation */}
+                    <span
+                      style={{
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold',
+                        color: school.colors.text,
+                        letterSpacing: '1px'
                       }}
                     >
-                      {/* Accent color element */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          width: '40%',
-                          height: '40%',
-                          backgroundColor: school.colors.secondary,
-                          clipPath: 'polygon(100% 0, 0 0, 100% 100%)'
-                        }}
-                      />
-                      
-                      {/* School abbreviation */}
-                      <span
-                        style={{
-                          fontSize: '1.2rem',
-                          fontWeight: 'bold',
-                          color: school.colors.text,
-                          letterSpacing: '1px'
-                        }}
-                      >
-                        {school.abbreviation}
-                      </span>
-                    </div>
+                      {school.abbreviation}
+                    </span>
                   </div>
-                  <p className={styles.schoolName}>{school.name}</p>
                 </div>
-              );
-            })}
+                <p className={styles.schoolName}>{school.name}</p>
+              </div>
+            ))}
           </div>
         </div>
         
         <button 
           className={`${styles.carouselButton} ${styles.nextButton}`}
-          onClick={goToNextSlides}
+          onClick={goToNext}
           aria-label="Next slide"
-          disabled={isTransitioning}
         >
           &#8250;
         </button>

@@ -151,33 +151,13 @@
   height: 100%;
 }
 
-.carouselContent {
+.carouselTrack {
   display: flex;
-  justify-content: center;
-  -ms-overflow-style: none;  /* Hide scrollbar in IE and Edge */
-  scrollbar-width: none;  /* Hide scrollbar in Firefox */
-}
-
-.carouselContent.transitioning .logoSlide {
-  animation: fadeOut 0.5s ease forwards;
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.carouselContent::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in Chrome/Safari/Webkit */
+  transition: transform 0.5s ease;
 }
 
 .logoSlide {
-  min-width: 200px;
+  min-width: 16.666%; /* 6 slides visible at once */
   padding: 0 20px;
   display: flex;
   flex-direction: column;
@@ -284,7 +264,23 @@
 }
 
 /* Media queries for the carousel */
+@media (max-width: 1280px) {
+  .logoSlide {
+    min-width: 20%; /* 5 slides visible */
+  }
+}
+
+@media (max-width: 1024px) {
+  .logoSlide {
+    min-width: 25%; /* 4 slides visible */
+  }
+}
+
 @media (max-width: 768px) {
+  .logoSlide {
+    min-width: 33.333%; /* 3 slides visible */
+  }
+  
   .carouselContainer {
     padding: 0 30px;
   }
@@ -300,6 +296,10 @@
 }
 
 @media (max-width: 576px) {
+  .logoSlide {
+    min-width: 50%; /* 2 slides visible */
+  }
+  
   .carouselContainer {
     padding: 0 25px;
   }
