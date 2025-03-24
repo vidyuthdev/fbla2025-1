@@ -62,42 +62,93 @@ const schoolPartners = [
 ];
 
 export default function SchoolPartners() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [position, setPosition] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const speedRef = useRef<number>(0.5); // pixels per frame
   
-  // Pause autoplay on hover
-  const handleMouseEnter = () => setIsAutoPlaying(false);
-  const handleMouseLeave = () => setIsAutoPlaying(true);
-
-  // Move to previous/next slide
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % schoolPartners.length);
+  // Create an array with 3 copies of the partners to ensure smooth infinite scrolling
+  const displayedPartners = [...schoolPartners, ...schoolPartners, ...schoolPartners];
+  
+  // Calculate item width based on the screen size
+  const getItemWidth = () => {
+    if (typeof window === 'undefined') return 200; // Default for SSR
+    
+    if (window.innerWidth < 576) return window.innerWidth / 2;
+    if (window.innerWidth < 768) return window.innerWidth / 3;
+    if (window.innerWidth < 1024) return window.innerWidth / 4;
+    if (window.innerWidth < 1280) return window.innerWidth / 5;
+    return window.innerWidth / 6;
   };
-
-  const goToPrev = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? schoolPartners.length - 1 : prevIndex - 1
-    );
+  
+  // Handle the smooth scroll animation
+  const animate = () => {
+    if (!trackRef.current) return;
+    
+    // Increase position for continuous scrolling
+    setPosition(prevPosition => {
+      let newPosition = prevPosition + speedRef.current;
+      
+      // Reset position when we've scrolled past a complete set
+      const totalWidth = schoolPartners.length * getItemWidth();
+      if (newPosition >= totalWidth) {
+        newPosition = 0;
+      }
+      
+      return newPosition;
+    });
+    
+    // Continue the animation
+    animationRef.current = requestAnimationFrame(animate);
   };
-
-  // Set up autoplay
+  
+  // Start/stop the animation
   useEffect(() => {
     if (isAutoPlaying) {
-      autoPlayRef.current = setInterval(() => {
-        goToNext();
-      }, 3000);
+      animationRef.current = requestAnimationFrame(animate);
+    } else if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
     }
     
     return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isAutoPlaying, currentIndex]);
-
-  // Duplicate the schoolPartners array to ensure smooth infinite scrolling
-  const displayedPartners = [...schoolPartners, ...schoolPartners];
+  }, [isAutoPlaying]);
+  
+  // Handle window resize to adjust item widths
+  useEffect(() => {
+    const handleResize = () => {
+      // Reset position to avoid jumps when resizing
+      setPosition(0);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Pause animation on hover
+  const handleMouseEnter = () => setIsAutoPlaying(false);
+  const handleMouseLeave = () => setIsAutoPlaying(true);
+  
+  // Increase speed temporarily when clicking the navigation buttons
+  const speedUp = (direction: 'left' | 'right') => {
+    // Temporarily increase scroll speed in the appropriate direction
+    speedRef.current = direction === 'right' ? 3 : -3;
+    
+    // Reset speed after 1 second
+    setTimeout(() => {
+      speedRef.current = 0.5;
+    }, 1000);
+    
+    // Ensure animation is running
+    if (!isAutoPlaying) {
+      setIsAutoPlaying(true);
+    }
+  };
 
   return (
     <section className={styles.schoolPartnersSection}>
@@ -109,7 +160,7 @@ export default function SchoolPartners() {
       >
         <button 
           className={`${styles.carouselButton} ${styles.prevButton}`}
-          onClick={goToPrev}
+          onClick={() => speedUp('left')}
           aria-label="Previous slide"
         >
           &#8249;
@@ -117,19 +168,21 @@ export default function SchoolPartners() {
         
         <div className={styles.carouselContentWrapper}>
           <div 
+            ref={trackRef}
             className={styles.carouselTrack}
             style={{
-              transform: `translateX(calc(-${currentIndex * 100}% / 6))`,
-              transition: 'transform 0.5s ease',
-              display: 'flex',
-              width: `${displayedPartners.length * 100 / 6}%` // Each item takes up 1/6 of the container
+              transform: `translateX(-${position}px)`,
+              transition: 'none' // Using animation frames instead for smoother movement
             }}
           >
             {displayedPartners.map((school, index) => (
               <div 
                 key={index} 
                 className={styles.logoSlide}
-                style={{ width: `${100 / displayedPartners.length}%` }}
+                style={{ 
+                  width: `${getItemWidth()}px`,
+                  flexShrink: 0
+                }}
               >
                 <div className={styles.schoolLogo}>
                   <div 
@@ -179,7 +232,7 @@ export default function SchoolPartners() {
         
         <button 
           className={`${styles.carouselButton} ${styles.nextButton}`}
-          onClick={goToNext}
+          onClick={() => speedUp('right')}
           aria-label="Next slide"
         >
           &#8250;
