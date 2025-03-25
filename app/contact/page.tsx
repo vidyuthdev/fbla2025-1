@@ -84,7 +84,7 @@ export default function Contact() {
               <div className={styles.infoContent}>
                 <h3>Email</h3>
                 <p className={styles.emailAddress}>
-                  <a href="mailto:info@freshearthrestaurant.com">info@freshearthrestaurant.com</a>
+                  <a href="mailto:info@queencitygreens.com">info@queencitygreens.com</a>
                 </p>
               </div>
             </div>

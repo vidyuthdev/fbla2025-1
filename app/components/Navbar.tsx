@@ -25,8 +25,8 @@ export default function Navbar() {
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          Sprout
-          <span className={styles.logoAccent}>& Savor</span>
+          Queen City
+          <span className={styles.logoAccent}>Greens</span>
         </Link>
 
         <button 

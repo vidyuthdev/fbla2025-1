@@ -39,14 +39,14 @@ export default function Reservations() {
         <div className={styles.overlay}></div>
         <div className={styles.heroContent}>
           <h1>Make a Reservation</h1>
-          <p>Join us for a sustainable dining experience at Fresh Earth</p>
+          <p>Join us for a sustainable dining experience at Queen City Greens</p>
         </div>
       </div>
 
       <div className="container">
         <div className={styles.contentWrapper}>
           <div className={styles.reservationInfo}>
-            <h2>Dining at Fresh Earth</h2>
+            <h2>Dining at Queen City Greens</h2>
             <p>
               We welcome you to experience our seasonal menu in a warm, sustainable environment. 
               Our dining room is designed to connect you with the natural world while you enjoy 
@@ -70,7 +70,7 @@ export default function Reservations() {
             
             <div className={styles.infoBox}>
               <h3>Contact</h3>
-              <p>Phone: 980-229-2987<br />Email: info@freshearthrestaurant.com</p>
+              <p>Phone: 980-229-2987<br />Email: info@queencitygreens.com</p>
             </div>
           </div>
 

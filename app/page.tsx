@@ -114,7 +114,7 @@ export default function Home() {
         className={styles.heroSection}
       >
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Fresh Earth Restaurant</h1>
+          <h1 className={styles.heroTitle}>Queen City Greens</h1>
           <p className={styles.heroSubtitle}>
             Celebrating plant-based cuisine with locally sourced, seasonal ingredients
           </p>
@@ -134,14 +134,14 @@ export default function Home() {
         <div className="container">
           <h2 className={styles.sectionTitle}>Our Story</h2>
           <p className={styles.sectionDescription}>
-            Fresh Earth is a celebration of sustainable, plant-based cuisine that honors local farmers and the natural bounty of our region.
+            Queen City Greens is a celebration of sustainable, plant-based cuisine that honors local farmers and the natural bounty of our region.
           </p>
           
           <div className={styles.aboutContent}>
             <div className={styles.aboutText}>
               <h3>Commitment to Quality</h3>
               <p>
-                Founded in 2015 by Chef Maria Chen, Fresh Earth was born from a vision to create delicious plant-based dishes that would satisfy even the most dedicated meat enthusiasts. Our philosophy is simple: source the finest local ingredients and let their natural flavors shine through creative, thoughtful preparation.
+                Founded in 2015 by Chef Maria Chen, Queen City Greens was born from a vision to create delicious plant-based dishes that would satisfy even the most dedicated meat enthusiasts. Our philosophy is simple: source the finest local ingredients and let their natural flavors shine through creative, thoughtful preparation.
               </p>
               <p>
                 Every dish we serve is crafted with intention, balancing nutrition, sustainability, and most importantly, incredible flavor. We work directly with local farmers and producers to ensure that only the freshest, highest-quality ingredients make it to your plate.
@@ -152,7 +152,7 @@ export default function Home() {
             </div>
             <Image 
               src="/images/about-img.jpg" 
-              alt="Fresh Earth Restaurant interior" 
+              alt="Queen City Greens interior" 
               width={600} 
               height={400}
               className={styles.aboutImage}
@@ -248,7 +248,7 @@ export default function Home() {
             <div className={styles.sustainabilityText}>
               <h3>Our Green Commitment</h3>
               <p>
-                At Fresh Earth, sustainability isn't just a buzzword—it's the foundation of everything we do. From the farmers we partner with to the energy that powers our kitchen, we make conscious choices that minimize our environmental impact while maximizing our positive influence on our community.
+                At Queen City Greens, sustainability isn't just a buzzword—it's the foundation of everything we do. From the farmers we partner with to the energy that powers our kitchen, we make conscious choices that minimize our environmental impact while maximizing our positive influence on our community.
               </p>
               <p>
                 We believe that delicious food and environmental responsibility go hand in hand, and we're proud to set a standard for sustainable dining in our community.
@@ -279,7 +279,7 @@ export default function Home() {
         <div className="container">
           <div className={styles.footerContent}>
             <div>
-              <div className={styles.footerLogo}>Fresh Earth</div>
+              <div className={styles.footerLogo}>Queen City Greens</div>
               <p className={styles.footerAbout}>
                 A sustainable vegetarian restaurant celebrating the bounty of local farms and the creativity of plant-based cuisine.
               </p>
@@ -341,13 +341,13 @@ export default function Home() {
                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
                 </svg>
-                info@freshearthrestaurant.com
+                info@queencitygreens.com
               </p>
             </div>
           </div>
           
           <div className={styles.footerBottom}>
-            <p>&copy; {new Date().getFullYear()} Fresh Earth Restaurant. All rights reserved. Proudly serving plant-based cuisine since 2015.</p>
+            <p>&copy; {new Date().getFullYear()} Queen City Greens. All rights reserved. Proudly serving plant-based cuisine since 2015.</p>
           </div>
         </div>
       </footer>
