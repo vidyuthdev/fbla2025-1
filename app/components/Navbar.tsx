@@ -1,57 +1,56 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
-  const [isSticky, setIsSticky] = useState(false);
-  
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <header className={`${styles.header} ${isSticky ? styles.stickyHeader : ''}`}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          CookCraft
-          <span className={styles.logoAccent}>🍳</span>
+          Sprout
+          <span className={styles.logoAccent}>& Savor</span>
         </Link>
-        
-        <nav className={styles.nav}>
-          <ul className={styles.navLinks}>
-            <li>
-              <Link href="/recipes">All Recipes</Link>
-            </li>
-            <li>
-              <Link href="/categories">Categories</Link>
-            </li>
-            <li>
-              <Link href="/recipe-finder">Recipe Finder</Link>
-            </li>
-            <li>
-              <Link href="/cooking-tips">Cooking Tips</Link>
-            </li>
+
+        <button 
+          className={styles.mobileMenuButton} 
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <div className={`${styles.hamburger} ${isMobileMenuOpen ? styles.open : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+
+        <nav className={`${styles.navMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
+          <ul className={styles.navList}>
+            <li><Link href="/" className={styles.navLink}>Home</Link></li>
+            <li><Link href="#about" className={styles.navLink}>Our Story</Link></li>
+            <li><Link href="#menu" className={styles.navLink}>Menu</Link></li>
+            <li><Link href="#sustainability" className={styles.navLink}>Sustainability</Link></li>
+            <li><Link href="/contact" className={styles.navLink}>Contact</Link></li>
           </ul>
+          <Link href="/reservations" className={styles.reserveButton}>Reserve Table</Link>
         </nav>
-        
-        <div className={styles.actionButtons}>
-          <Link href="/recipe-finder" className={styles.findRecipeButton}>
-            Find a Recipe
-          </Link>
-        </div>
       </div>
     </header>
   );
