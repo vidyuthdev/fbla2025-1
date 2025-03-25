@@ -52,6 +52,59 @@
   margin-top: 2rem;
 }
 
+.ctaButton {
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  background-color: #3a8a40;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(58, 138, 64, 0.3);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.ctaButton:hover {
+  background-color: #2d6831;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(58, 138, 64, 0.4);
+}
+
+.ctaButton:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: width 0.4s ease;
+  z-index: -1;
+}
+
+.ctaButton:hover:before {
+  width: 100%;
+}
+
+.secondaryButton {
+  font-weight: 600;
+  border: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  color: white;
+  padding: 1rem 2rem;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background-color: white;
+  color: var(--primary-green-dark);
+  transform: translateY(-3px);
+}
+
 @media (max-width: 768px) {
   .heroTitle {
     font-size: 2.5rem;
@@ -67,6 +120,30 @@
     width: 100%;
     max-width: 300px;
     margin: 1.5rem auto 0;
+  }
+  
+  .ctaButton {
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    animation: pulse 2s infinite;
+  }
+  
+  .secondaryButton {
+    width: 100%;
+    padding: 1rem 1.5rem;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(58, 138, 64, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(58, 138, 64, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(58, 138, 64, 0);
   }
 }
 

@@ -119,8 +119,8 @@ export default function Home() {
             Celebrating plant-based cuisine with locally sourced, seasonal ingredients
           </p>
           <div className={styles.heroButtons}>
-            <Link href="#menu" className="btn btn-primary">View Menu</Link>
-            <Link href="/reservations" className="btn btn-secondary">Book a Table</Link>
+            <Link href="/reservations" className={`btn btn-primary ${styles.ctaButton}`}>Book a Table</Link>
+            <Link href="#menu" className={`btn ${styles.secondaryButton}`}>View Menu</Link>
           </div>
         </div>
       </section>
