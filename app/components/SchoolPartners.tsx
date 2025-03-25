@@ -74,7 +74,7 @@ export default function SchoolPartners() {
   
   // Calculate item width based on the screen size
   const getItemWidth = () => {
-    if (typeof window === 'undefined') return 200; // Default for SSR
+    if (typeof window === 'undefined') return 320; // Fixed SSR width to match client
     
     if (window.innerWidth < 576) return window.innerWidth / 2;
     if (window.innerWidth < 768) return window.innerWidth / 3;
@@ -172,8 +172,7 @@ export default function SchoolPartners() {
                 key={index} 
                 className={styles.logoSlide}
                 style={{ 
-                  width: `${getItemWidth()}px`,
-                  flexShrink: 0
+                  width: `${getItemWidth()}px`
                 }}
               >
                 <div className={styles.schoolLogo}>
