@@ -65,12 +65,12 @@ export default function Reservations() {
             
             <div className={styles.infoBox}>
               <h3>Location</h3>
-              <p>123 Green Street<br />Cityville, ST 12345</p>
+              <p>245 Providence Road<br />Charlotte, NC 28207</p>
             </div>
             
             <div className={styles.infoBox}>
               <h3>Contact</h3>
-              <p>Phone: (555) 123-4567<br />Email: info@freshearthrestaurant.com</p>
+              <p>Phone: 980-229-2987<br />Email: info@freshearthrestaurant.com</p>
             </div>
           </div>
 
@@ -185,7 +185,7 @@ export default function Reservations() {
                 <div className={styles.checkmark}>✓</div>
                 <h2>Reservation Received!</h2>
                 <p>Thank you, {formData.name}! We've received your reservation request for {formData.guests === '7+' ? '7+' : formData.guests} people on {formData.date} at {formData.time}.</p>
-                <p>We'll send a confirmation to {formData.email} shortly. If you need to make any changes to your reservation, please call us at (555) 123-4567.</p>
+                <p>We'll send a confirmation to {formData.email} shortly. If you need to make any changes to your reservation, please call us at 980-229-2987.</p>
                 <div className={styles.buttonContainer}>
                   <Link href="/" className="btn btn-secondary">Return to Home</Link>
                   <button onClick={() => setSubmitted(false)} className="btn btn-primary">Make Another Reservation</button>

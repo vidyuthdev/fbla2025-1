@@ -261,7 +261,7 @@ export default function FullMenu() {
           <p>Experience our seasonal menu in our sustainable dining room or order for takeaway.</p>
           <div className={styles.ctaButtons}>
             <Link href="/reservations" className="btn btn-primary">Make a Reservation</Link>
-            <a href="tel:5551234567" className="btn btn-secondary">Call to Order: (555) 123-4567</a>
+            <a href="tel:9802292987" className="btn btn-secondary">Call to Order: 980-229-2987</a>
           </div>
         </div>
       </div>
