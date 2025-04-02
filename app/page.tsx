@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import SchoolPartners from './components/SchoolPartners';
 import styles from './page.module.css';
 
 // Define types for menu items
@@ -124,6 +125,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* School Partners Section */}
+      <SchoolPartners />
 
       {/* About Section */}
       <section 

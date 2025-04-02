@@ -74,13 +74,8 @@ export default function SchoolPartners() {
   
   // Calculate item width based on the screen size
   const getItemWidth = () => {
-    if (typeof window === 'undefined') return 320; // Fixed SSR width to match client
-    
-    if (window.innerWidth < 576) return window.innerWidth / 2;
-    if (window.innerWidth < 768) return window.innerWidth / 3;
-    if (window.innerWidth < 1024) return window.innerWidth / 4;
-    if (window.innerWidth < 1280) return window.innerWidth / 5;
-    return window.innerWidth / 6;
+    // Use fixed widths to avoid hydration mismatch
+    return 252; // Fixed width that works well across different screen sizes
   };
   
   // Handle the smooth scroll animation

@@ -14,7 +14,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/hero-bg.jpg');
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/images/restaurant-interior.jpg?v=2');
   background-size: cover;
   background-position: center;
   color: white;
@@ -24,16 +24,21 @@
 
 .heroContent {
   max-width: 800px;
-  padding: 0 20px;
+  padding: 3rem;
   z-index: 2;
   animation: fadeIn 1s ease-out;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 .heroTitle {
   font-size: 3.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: 800;
   letter-spacing: -0.5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: white;
 }
 
 .heroSubtitle {
@@ -43,6 +48,8 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  line-height: 1.6;
 }
 
 .heroButtons {
@@ -112,6 +119,11 @@
   
   .heroSubtitle {
     font-size: 1.25rem;
+  }
+  
+  .heroContent {
+    padding: 2rem;
+    margin: 0 1rem;
   }
   
   .heroButtons {
@@ -515,5 +527,98 @@
   
   .footerAbout {
     max-width: 100%;
+  }
+}
+
+/* School Partners Section */
+.schoolPartnersSection {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+  width: 100%;
+  overflow: hidden;
+}
+
+.partnersTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 3rem;
+  font-weight: 700;
+}
+
+.carouselContainer {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 2rem 0;
+}
+
+.carouselContentWrapper {
+  width: 100%;
+  overflow: hidden;
+  padding: 0 1rem;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.5s ease;
+}
+
+.logoSlide {
+  flex: 0 0 252px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.schoolLogo {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.schoolName {
+  font-size: 1rem;
+  color: #2c3e50;
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .schoolPartnersSection {
+    padding: 3rem 0;
+  }
+
+  .partnersTitle {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .carouselContainer {
+    padding: 1rem 0;
+  }
+
+  .carouselContentWrapper {
+    padding: 0 0.5rem;
+  }
+
+  .carouselTrack {
+    gap: 1rem;
+  }
+
+  .logoSlide {
+    flex: 0 0 252px;
+  }
+
+  .schoolLogo {
+    max-width: 150px;
+  }
+
+  .schoolName {
+    font-size: 0.9rem;
   }
 } 
