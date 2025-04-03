@@ -300,65 +300,107 @@
 
 /* Menu Section */
 .menuSection {
-  background-color: var(--background-cream);
+  padding: 6rem 0;
+  background-color: #f9f9f9;
 }
 
-.menuItems {
+.menuSection h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.menuGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .menuItem {
-  background-color: white;
-  border-radius: 8px;
+  background: white;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: var(--shadow-subtle);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .menuItem:hover {
   transform: translateY(-5px);
-  box-shadow: var(--shadow-medium);
 }
 
-.menuItemImage {
+.menuImage {
   width: 100%;
-  height: 200px;
+  height: 250px;
   object-fit: cover;
+  display: block;
 }
 
 .menuItemContent {
   padding: 1.5rem;
 }
 
-.menuItemTitle {
+.menuItemContent h3 {
   font-size: 1.25rem;
+  color: #2c3e50;
   margin-bottom: 0.5rem;
-  color: var(--text-dark);
 }
 
-.menuItemDescription {
-  color: var(--text-medium);
+.menuItemContent p {
+  color: #666;
   margin-bottom: 1rem;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-.menuItemPrice {
+.menuPrice {
+  font-size: 1.1rem;
+  color: #3a8a40;
   font-weight: 600;
-  color: var(--primary-green);
-  font-size: 1.125rem;
 }
 
 .menuCta {
-  margin-top: 3rem;
   text-align: center;
+  margin-top: 3rem;
+}
+
+@media (max-width: 1024px) {
+  .menuGrid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .menuSection h2 {
+    font-size: 2rem;
+  }
+
+  .menuGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .menuImage {
+    height: 200px;
+  }
 }
 
 /* Sustainability Section */
 .sustainabilitySection {
   padding: 6rem 0;
   background-color: #f9f9f9;
+}
+
+.sustainabilitySection h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-weight: 700;
 }
 
 .sustainabilityContent {
@@ -375,6 +417,12 @@
 .sustainabilityText {
   flex: 1;
   max-width: 600px;
+}
+
+.sustainabilityText h3 {
+  font-size: 1.75rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
 }
 
 .sustainabilityImage {
@@ -402,6 +450,8 @@
   margin: 1rem 0;
   padding-left: 2rem;
   position: relative;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 .sustainabilityList li:before {
@@ -420,6 +470,11 @@
 }
 
 @media (max-width: 768px) {
+  .sustainabilitySection h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
   .sustainabilityContent {
     flex-direction: column;
     gap: 2rem;
@@ -433,6 +488,14 @@
 
   .sectionImage {
     height: 300px;
+  }
+
+  .sustainabilityText h3 {
+    font-size: 1.5rem;
+  }
+
+  .sustainabilityList li {
+    font-size: 1rem;
   }
 }
 

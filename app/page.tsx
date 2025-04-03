@@ -200,38 +200,109 @@ export default function Home() {
       </section>
 
       {/* Menu Section */}
-      <section 
-        id="menu"
-        ref={(el: HTMLDivElement | null) => { sectionRefs.current.menu = el; }}
-        className={`${styles.section} ${styles.menuSection} ${isVisible.menu ? styles.visible : ''}`}
-      >
-        <div className="container">
-          <h2 className={styles.sectionTitle}>Our Menu</h2>
+      <section className={styles.menuSection} id="menu">
+        <div className={`${styles.sectionContent} ${isVisible.menu ? styles.visible : ''}`}>
+          <h2>Our Menu</h2>
           <p className={styles.sectionDescription}>
             Our seasonal menu celebrates the bounty of local farms with creative vegetarian dishes that delight the senses.
           </p>
           
-          <div className={styles.menuItems}>
-            {menuItems.map((item) => (
-              <div key={item.id} className={styles.menuItem}>
-                <Image 
-                  src={item.image} 
-                  alt={item.title} 
-                  width={400} 
-                  height={200}
-                  className={styles.menuItemImage}
-                />
-                <div className={styles.menuItemContent}>
-                  <h3 className={styles.menuItemTitle}>{item.title}</h3>
-                  <p className={styles.menuItemDescription}>{item.description}</p>
-                  <p className={styles.menuItemPrice}>{item.price}</p>
-                </div>
+          <div className={styles.menuGrid}>
+            <div className={styles.menuItem}>
+              <Image
+                src="/images/Garden-Salad-2.jpg"
+                alt="Garden Fresh Salad"
+                width={400}
+                height={300}
+                className={styles.menuImage}
+              />
+              <div className={styles.menuItemContent}>
+                <h3>Garden Fresh Salad</h3>
+                <p>Seasonal organic vegetables with house-made vinaigrette</p>
+                <span className={styles.menuPrice}>$12.95</span>
               </div>
-            ))}
+            </div>
+
+            <div className={styles.menuItem}>
+              <Image
+                src="/images/buddha.jpg"
+                alt="Roasted Vegetable Buddha Bowl"
+                width={400}
+                height={300}
+                className={styles.menuImage}
+              />
+              <div className={styles.menuItemContent}>
+                <h3>Roasted Vegetable Buddha Bowl</h3>
+                <p>Quinoa, roasted seasonal vegetables, avocado, and tahini dressing</p>
+                <span className={styles.menuPrice}>$15.95</span>
+              </div>
+            </div>
+
+            <div className={styles.menuItem}>
+              <Image
+                src="/images/wild-mushroom-risotto.jpg"
+                alt="Wild Mushroom Risotto"
+                width={400}
+                height={300}
+                className={styles.menuImage}
+              />
+              <div className={styles.menuItemContent}>
+                <h3>Wild Mushroom Risotto</h3>
+                <p>Creamy arborio rice with locally foraged mushrooms and truffle oil</p>
+                <span className={styles.menuPrice}>$18.95</span>
+              </div>
+            </div>
+
+            <div className={styles.menuItem}>
+              <Image
+                src="/images/rainbow.jpg"
+                alt="Rainbow Plant Power Bowl"
+                width={400}
+                height={300}
+                className={styles.menuImage}
+              />
+              <div className={styles.menuItemContent}>
+                <h3>Rainbow Plant Power Bowl</h3>
+                <p>A colorful array of vegetables, legumes, and seeds with a lemon-herb dressing</p>
+                <span className={styles.menuPrice}>$16.95</span>
+              </div>
+            </div>
+
+            <div className={styles.menuItem}>
+              <Image
+                src="/images/speciappasta.jpg"
+                alt="Chef's Special Pasta"
+                width={400}
+                height={300}
+                className={styles.menuImage}
+              />
+              <div className={styles.menuItemContent}>
+                <h3>Chef's Special Pasta</h3>
+                <p>Hand-rolled pasta with seasonal vegetables and house-made sauce</p>
+                <span className={styles.menuPrice}>$17.95</span>
+              </div>
+            </div>
+
+            <div className={styles.menuItem}>
+              <Image
+                src="/images/plantbasedburger.jpg"
+                alt="Plant-Based Burger"
+                width={400}
+                height={300}
+                className={styles.menuImage}
+              />
+              <div className={styles.menuItemContent}>
+                <h3>Plant-Based Burger</h3>
+                <p>House-made vegetable and legume patty on a whole grain bun with all the fixings</p>
+                <span className={styles.menuPrice}>$14.95</span>
+              </div>
+            </div>
           </div>
-          
+
           <div className={styles.menuCta}>
-            <Link href="/full-menu" className="btn btn-primary">View Full Menu</Link>
+            <Link href="/full-menu" className={styles.ctaButton}>
+              View Full Menu
+            </Link>
           </div>
         </div>
       </section>
@@ -264,7 +335,7 @@ export default function Home() {
             
             <div className={styles.sustainabilityImage}>
               <Image
-                src="/images/vegan.jpg"
+                src="/images/aaaaaaa.jpg"
                 alt="Sustainable farming practices"
                 width={600}
                 height={400}

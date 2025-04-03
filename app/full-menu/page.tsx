@@ -30,7 +30,7 @@ export default function FullMenu() {
         title: 'Garden Fresh Salad',
         description: 'Seasonal organic vegetables with house-made vinaigrette',
         price: '$12.95',
-        image: '/images/menu1.jpg',
+        image: '/images/Garden-Salad-2.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -38,7 +38,7 @@ export default function FullMenu() {
         title: 'Roasted Beet Carpaccio',
         description: 'Thinly sliced roasted beets with arugula, walnuts, and cashew cheese',
         price: '$14.95',
-        image: '/images/menu2.jpg',
+        image: '/images/Beet+Carpaccio.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -46,7 +46,7 @@ export default function FullMenu() {
         title: 'Seasonal Soup',
         description: 'Daily selection of farm-fresh vegetables in a flavorful broth',
         price: '$9.95',
-        image: '/images/menu3.jpg',
+        image: '/images/seasonalsuop.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -54,33 +54,33 @@ export default function FullMenu() {
         title: 'Artisanal Bruschetta',
         description: 'House-made sourdough topped with seasonal vegetables and herbs',
         price: '$11.95',
-        image: '/images/menu4.jpg',
+        image: '/images/Vegetable-Bruschette-7838-2000px-SRGB-scaled.jpg',
         dietary: ['Vegetarian']
       }
     ],
     mains: [
       {
         id: 5,
-        title: 'Wild Mushroom Risotto',
-        description: 'Creamy arborio rice with locally foraged mushrooms and truffle oil',
-        price: '$18.95',
-        image: '/images/menu3.jpg',
-        dietary: ['Vegetarian', 'Gluten-Free']
-      },
-      {
-        id: 6,
         title: 'Roasted Vegetable Buddha Bowl',
         description: 'Quinoa, roasted seasonal vegetables, avocado, and tahini dressing',
         price: '$15.95',
-        image: '/images/menu2.jpg',
+        image: '/images/buddha.jpg',
         dietary: ['Vegan', 'Gluten-Free']
+      },
+      {
+        id: 6,
+        title: 'Wild Mushroom Risotto',
+        description: 'Creamy arborio rice with locally foraged mushrooms and truffle oil',
+        price: '$18.95',
+        image: '/images/wild-mushroom-risotto.jpg',
+        dietary: ['Vegetarian', 'Gluten-Free']
       },
       {
         id: 7,
         title: 'Rainbow Plant Power Bowl',
         description: 'A colorful array of vegetables, legumes, and seeds with a lemon-herb dressing',
         price: '$16.95',
-        image: '/images/menu4.jpg',
+        image: '/images/rainbow.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -88,7 +88,7 @@ export default function FullMenu() {
         title: 'Chef\'s Special Pasta',
         description: 'Hand-rolled pasta with seasonal vegetables and house-made sauce',
         price: '$17.95',
-        image: '/images/menu1.jpg',
+        image: '/images/speciappasta.jpg',
         dietary: ['Vegetarian']
       },
       {
@@ -96,7 +96,7 @@ export default function FullMenu() {
         title: 'Plant-Based Burger',
         description: 'House-made vegetable and legume patty on a whole grain bun with all the fixings',
         price: '$14.95',
-        image: '/images/menu2.jpg',
+        image: '/images/plantbasedburger.jpg',
         dietary: ['Vegan']
       },
       {
@@ -104,7 +104,7 @@ export default function FullMenu() {
         title: 'Seasonal Vegetable Curry',
         description: 'Aromatic spices and coconut milk with seasonal vegetables served with brown rice',
         price: '$16.95',
-        image: '/images/menu3.jpg',
+        image: '/images/veggiecurry.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       }
     ],
@@ -114,7 +114,7 @@ export default function FullMenu() {
         title: 'Seasonal Fruit Crumble',
         description: 'Local fruits with oat and nut topping, served with plant-based ice cream',
         price: '$10.95',
-        image: '/images/menu4.jpg',
+        image: '/images/mix-match-fruit-crumble.jpg',
         dietary: ['Vegan']
       },
       {
@@ -122,7 +122,7 @@ export default function FullMenu() {
         title: 'Chocolate Avocado Mousse',
         description: 'Rich chocolate mousse made with ripe avocados and fair-trade cacao',
         price: '$9.95',
-        image: '/images/menu1.jpg',
+        image: '/images/Chocolate-Avocado-Mousse.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -130,7 +130,15 @@ export default function FullMenu() {
         title: 'Vanilla Bean Cheesecake',
         description: 'Cashew-based cheesecake with a walnut-date crust and berry compote',
         price: '$11.95',
-        image: '/images/menu2.jpg',
+        image: '/images/Vanilla-Bean-Cheesecake-with-White-Chocolate-Mousse-11.jpg',
+        dietary: ['Vegan', 'Gluten-Free']
+      },
+      {
+        id: 18,
+        title: 'Lemon Lavender Tart',
+        description: 'Zesty lemon curd with lavender-infused crust, topped with fresh berries',
+        price: '$12.95',
+        image: '/images/lemontart.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       }
     ],
@@ -140,7 +148,7 @@ export default function FullMenu() {
         title: 'Seasonal Botanical Spritzer',
         description: 'House-made syrup with fresh herbs, citrus, and sparkling water',
         price: '$6.95',
-        image: '/images/menu3.jpg',
+        image: '/images/seasonbotanicaldrink.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -148,7 +156,7 @@ export default function FullMenu() {
         title: 'Organic Kombucha',
         description: 'Local kombucha in rotating seasonal flavors',
         price: '$7.95',
-        image: '/images/menu4.jpg',
+        image: '/images/kombucha.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -156,7 +164,7 @@ export default function FullMenu() {
         title: 'Fresh-Pressed Juice',
         description: 'Rotating selection of organic fruits and vegetables',
         price: '$8.95',
-        image: '/images/menu1.jpg',
+        image: '/images/coldpressed.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       },
       {
@@ -164,7 +172,7 @@ export default function FullMenu() {
         title: 'Organic Wine Selection',
         description: 'Curated selection of organic and biodynamic wines (glass/bottle)',
         price: '$12.95 / $45.00',
-        image: '/images/menu2.jpg',
+        image: '/images/wine.jpg',
         dietary: ['Vegan', 'Gluten-Free']
       }
     ]
@@ -210,7 +218,7 @@ export default function FullMenu() {
           {menuData[activeCategory].map((item) => (
             <div key={item.id} className={styles.menuItem}>
               <div className={styles.menuItemImageContainer}>
-                <Image 
+                <Image
                   src={item.image} 
                   alt={item.title} 
                   width={300} 

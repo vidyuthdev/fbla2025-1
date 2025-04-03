@@ -111,7 +111,7 @@
 .menuItemImageContainer {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 180px;
   overflow: hidden;
 }
 
@@ -119,6 +119,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.menuItem:hover .menuItemImage {
+  transform: scale(0.85);
 }
 
 .dietaryTags {
@@ -278,5 +284,122 @@
     flex-direction: column;
     max-width: 300px;
     margin: 0 auto;
+  }
+
+  .menuItemImageContainer {
+    height: 160px;
+  }
+}
+
+.main {
+  padding: 2rem 0;
+  background-color: #f9f9f9;
+}
+
+.menuSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.menuSection h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.menuDescription {
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.menuCategory {
+  margin-bottom: 4rem;
+}
+
+.menuCategory h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3a8a40;
+}
+
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.menuItem {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.menuItem:hover {
+  transform: translateY(-5px);
+}
+
+.menuImage {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.menuItemContent {
+  padding: 1.5rem;
+}
+
+.menuItemContent h3 {
+  font-size: 1.25rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.menuItemContent p {
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.menuPrice {
+  font-size: 1.1rem;
+  color: #3a8a40;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .menuGrid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .menuSection h1 {
+    font-size: 2rem;
+  }
+
+  .menuCategory h2 {
+    font-size: 1.75rem;
+  }
+
+  .menuGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .menuImage {
+    height: 200px;
   }
 } 
