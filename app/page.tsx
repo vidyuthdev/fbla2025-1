@@ -155,7 +155,7 @@ export default function Home() {
               </p>
             </div>
             <Image 
-              src="/images/about-img.jpg" 
+              src="/images/vegan.jpg" 
               alt="Queen City Greens interior" 
               width={600} 
               height={400}
@@ -237,13 +237,9 @@ export default function Home() {
       </section>
 
       {/* Sustainability Section */}
-      <section 
-        id="sustainability"
-        ref={(el: HTMLDivElement | null) => { sectionRefs.current.sustainability = el; }}
-        className={`${styles.section} ${styles.sustainabilitySection} ${isVisible.sustainability ? styles.visible : ''}`}
-      >
-        <div className="container">
-          <h2 className={styles.sectionTitle}>Sustainability</h2>
+      <section className={styles.sustainabilitySection} id="sustainability">
+        <div className={`${styles.sectionContent} ${isVisible.sustainability ? styles.visible : ''}`}>
+          <h2>Sustainability</h2>
           <p className={styles.sectionDescription}>
             Our commitment to the planet goes beyond serving plant-based food. We strive to make every aspect of our business environmentally responsible.
           </p>
@@ -257,7 +253,6 @@ export default function Home() {
               <p>
                 We believe that delicious food and environmental responsibility go hand in hand, and we're proud to set a standard for sustainable dining in our community.
               </p>
-              
               <ul className={styles.sustainabilityList}>
                 <li>Solar-powered kitchen and dining room</li>
                 <li>Water conservation systems throughout our facility</li>
@@ -267,13 +262,15 @@ export default function Home() {
               </ul>
             </div>
             
-            <Image 
-              src="/images/sustainability.jpg" 
-              alt="Sustainable farming practices" 
-              width={600} 
-              height={400}
-              className={styles.sustainabilityImage}
-            />
+            <div className={styles.sustainabilityImage}>
+              <Image
+                src="/images/vegan.jpg"
+                alt="Sustainable farming practices"
+                width={600}
+                height={400}
+                className={styles.sectionImage}
+              />
+            </div>
           </div>
         </div>
       </section>
